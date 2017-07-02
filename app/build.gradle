@@ -29,5 +29,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'org.jsoup:jsoup:1.9.2'
     compile 'com.github.Andy671:Dachshund-Tab-Layout:v0.2.0'
+    compile 'com.gongwen:marqueelibrary:1.0.4'
 
 }

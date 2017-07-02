@@ -11,10 +11,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.gongwen.marqueen.MarqueeFactory;
+import com.gongwen.marqueen.MarqueeView;
 import com.kekstudio.dachshundtablayout.DachshundTabLayout;
 import com.kekstudio.dachshundtablayout.indicators.DachshundIndicator;
 import com.openweather.airnews.DataModel.DataModel;
+import com.openweather.airnews.Marquee.NoticeMF;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,6 +28,8 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private Document document;
@@ -30,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String DOG_BREEDS[] = {"現在情況", "新聞", "預報"};
     private ViewPager viewPager;
     private DachshundTabLayout tabLayout;
+
+    private MarqueeView marqueeView2;
+    private final List<String> datas = Arrays.asList("2日北部、竹苗地區為普通等級","其他地區為良好等級。","指標污染物為臭氧(午後時段)", "3日、4日北部、竹苗地區為普通等級", "指標污染物為臭氧(午後時段)", "其他地區為良好等級。");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +55,18 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (DachshundTabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setAnimatedIndicator(new DachshundIndicator(tabLayout));
+
+        marqueeView2 = (MarqueeView) findViewById(R.id.marqueeView2);
+        final MarqueeFactory<TextView, String> marqueeFactory2 = new NoticeMF(this);
+        marqueeFactory2.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {
+            @Override
+            public void onItemClickListener(MarqueeFactory.ViewHolder<TextView, String> holder) {
+                Toast.makeText(MainActivity.this, holder.data, Toast.LENGTH_SHORT).show();
+            }
+        });
+        marqueeFactory2.setData(datas);
+        marqueeView2.setMarqueeFactory(marqueeFactory2);
+        marqueeView2.startFlipping();
     }
     @Override
     protected void onResume() {
