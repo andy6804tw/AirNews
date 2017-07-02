@@ -1,16 +1,10 @@
 package com.openweather.airnews;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +12,10 @@ import com.gongwen.marqueen.MarqueeFactory;
 import com.gongwen.marqueen.MarqueeView;
 import com.kekstudio.dachshundtablayout.DachshundTabLayout;
 import com.kekstudio.dachshundtablayout.indicators.DachshundIndicator;
+import com.openweather.airnews.Adapter.ViewPagerAdapter;
 import com.openweather.airnews.DataModel.DataModel;
+import com.openweather.airnews.Fragment.HomeFragment;
+import com.openweather.airnews.Fragment.fragment_page;
 import com.openweather.airnews.Marquee.NoticeMF;
 
 import org.jsoup.Jsoup;
@@ -34,9 +31,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private Document document;
     public ArrayList<DataModel> list;
-    private static final String DOG_BREEDS[] = {"現在情況", "新聞", "預報"};
     private ViewPager viewPager;
     private DachshundTabLayout tabLayout;
+    private ViewPagerAdapter viewPagerAdapter;
 
     private MarqueeView marqueeView2;
     private final List<String> datas = Arrays.asList("2日北部、竹苗地區為普通等級","其他地區為良好等級。","指標污染物為臭氧(午後時段)", "3日、4日北部、竹苗地區為普通等級", "指標污染物為臭氧(午後時段)", "其他地區為良好等級。");
@@ -49,8 +46,12 @@ public class MainActivity extends AppCompatActivity {
         list=new ArrayList<DataModel>();
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
+        viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter.addFragments(new HomeFragment(),"現在情況");
+        viewPagerAdapter.addFragments(new fragment_page(),"新聞");
+        viewPagerAdapter.addFragments(new fragment_page(),"預報");
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(viewPagerAdapter);
 
         tabLayout = (DachshundTabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
@@ -109,36 +110,4 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
-    public class PagerAdapter extends FragmentStatePagerAdapter {
-        public PagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-            return new PageFragment();
-        }
-
-        @Override
-        public int getCount() {
-            return DOG_BREEDS.length;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return DOG_BREEDS[position];
-        }
-    }
-
-    public static class PageFragment extends Fragment {
-
-        public PageFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_page, container, false);
-        }
-    }
 }
