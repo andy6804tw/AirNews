@@ -1,9 +1,19 @@
 package com.openweather.airnews;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.kekstudio.dachshundtablayout.DachshundTabLayout;
+import com.kekstudio.dachshundtablayout.indicators.DachshundIndicator;
 import com.openweather.airnews.DataModel.DataModel;
 
 import org.jsoup.Jsoup;
@@ -17,12 +27,23 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private Document document;
     public ArrayList<DataModel> list;
+    private static final String DOG_BREEDS[] = {"現在情況", "新聞", "預報"};
+    private ViewPager viewPager;
+    private DachshundTabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         list=new ArrayList<DataModel>();
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
+
+        tabLayout = (DachshundTabLayout) findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setAnimatedIndicator(new DachshundIndicator(tabLayout));
     }
     @Override
     protected void onResume() {
@@ -63,5 +84,38 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }).start();
+    }
+
+    public class PagerAdapter extends FragmentStatePagerAdapter {
+        public PagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            return new PageFragment();
+        }
+
+        @Override
+        public int getCount() {
+            return DOG_BREEDS.length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return DOG_BREEDS[position];
+        }
+    }
+
+    public static class PageFragment extends Fragment {
+
+        public PageFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            return inflater.inflate(R.layout.fragment_page, container, false);
+        }
     }
 }
