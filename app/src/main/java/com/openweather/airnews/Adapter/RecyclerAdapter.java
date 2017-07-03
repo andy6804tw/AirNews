@@ -76,8 +76,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        viewHolder.itemTitle.setText(titles[i]);
-        viewHolder.itemDetail.setText(details[i]);
+        //viewHolder.itemTitle.setText(titles[i]);
+        //viewHolder.itemDetail.setText(details[i]);
         //viewHolder.itemImage.setImageResource(images[i]);
         new DownloadImageTask (viewHolder.itemImage).execute("http://e-info.org.tw/sites/default/files/styles/article_list/public/34622196154_b9bc69779c_b.jpg?itok=A1NE3mRx");
     }
