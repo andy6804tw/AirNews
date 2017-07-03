@@ -15,6 +15,7 @@ import com.kekstudio.dachshundtablayout.indicators.DachshundIndicator;
 import com.openweather.airnews.Adapter.ViewPagerAdapter;
 import com.openweather.airnews.DataModel.DataModel;
 import com.openweather.airnews.Fragment.HomeFragment;
+import com.openweather.airnews.Fragment.NewsFragment;
 import com.openweather.airnews.Fragment.fragment_page;
 import com.openweather.airnews.Marquee.NoticeMF;
 
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragments(new HomeFragment(),"現在情況");
-        viewPagerAdapter.addFragments(new fragment_page(),"新聞");
+        viewPagerAdapter.addFragments(new NewsFragment(),"新聞");
         viewPagerAdapter.addFragments(new fragment_page(),"預報");
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(viewPagerAdapter);
