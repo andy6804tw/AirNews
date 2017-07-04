@@ -16,11 +16,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.openweather.airnews.DataModel.DataModel;
-import com.openweather.airnews.MainActivity;
+import com.openweather.airnews.LoadingSplash.SplashActivity;
 import com.openweather.airnews.R;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -55,13 +62,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public ImageView itemImage;
         public TextView itemTitle;
         public TextView itemDetail;
+        //Footer
+        public TextView tvFooter;
 
         public ViewHolder(View itemView,int viewType) {
             super(itemView);
-            itemImage = (ImageView)itemView.findViewById(R.id.item_image);
-            itemTitle = (TextView)itemView.findViewById(R.id.item_title);
-            itemDetail =
-                    (TextView)itemView.findViewById(R.id.item_detail);
+            if(viewType!=SplashActivity.list.size()){
+                itemImage = (ImageView)itemView.findViewById(R.id.item_image);
+                itemTitle = (TextView)itemView.findViewById(R.id.item_title);
+                itemDetail =(TextView)itemView.findViewById(R.id.item_detail);
+            }
+            else
+                tvFooter =(TextView)itemView.findViewById(R.id.tvFooter);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
@@ -73,12 +85,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
                 }
             });
+
         }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == 9) {
+        if (viewType == SplashActivity.list.size()) {
             return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.footer_layout, parent, false),viewType);
         }else
             return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.card_layout, parent, false),viewType);
@@ -91,17 +104,35 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         //viewHolder.itemTitle.setText(titles[i]);
         //viewHolder.itemDetail.setText(details[i]);
         //viewHolder.itemImage.setImageResource(images[i]);
-        if(position!=9){
-            //new DownloadImageTask (viewHolder.itemImage).execute("http://e-info.org.tw/sites/default/files/styles/article_list/public/34622196154_b9bc69779c_b.jpg?itok=A1NE3mRx");
-            viewHolder.itemTitle.setText(MainActivity.list.size()+" "+position);
-            //viewHolder.itemTitle.setText(position+"..+.");
+        if(position!=SplashActivity.list.size()){
+            new DownloadImageTask (viewHolder.itemImage).execute(SplashActivity.list.get(position).getImage());
+            viewHolder.itemTitle.setText(SplashActivity.list.get(position).getTitle());
+        }else{
+                viewHolder.tvFooter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(mContext,"Hi~",Toast.LENGTH_LONG).show();
+                    notifyItemRemoved(list.size());
+                    list.add(new DataModel("123","456","789", "101112","http://e-info.org.tw/sites/default/files/default_logo.png"));
+                    list.add(new DataModel("123","456","789", "101112","http://e-info.org.tw/sites/default/files/default_logo.png"));
+                    list.add(new DataModel("123","456","789", "101112","http://e-info.org.tw/sites/default/files/default_logo.png"));
+                    list.add(new DataModel("123","456","789", "101112","http://e-info.org.tw/sites/default/files/default_logo.png"));
+                    list.add(new DataModel("123","456","789", "101112","http://e-info.org.tw/sites/default/files/default_logo.png"));
+                    list.add(new DataModel("123","456","789", "101112","http://e-info.org.tw/sites/default/files/default_logo.png"));
+                   // notifyDataSetChanged();
+                }
+            });
+        }
+        if(position==SplashActivity.list.size()-1){
+            //addData();
+            //notifyDataSetChanged();
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return 9+1;
+        return SplashActivity.list.size()+1;
     }
     @Override
     public int getItemViewType(int position) {return  position;}
@@ -129,6 +160,44 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
+    }
+    private void addData() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    Document document = Jsoup.connect("http://e-info.org.tw/taxonomy/term/258/all?page=1")
+                            .timeout(3000)
+                            .get();
+                    Elements noteList = document.select("div").select("#block-system-main").select("div.views-row");
+                    //Log.e("Data",noteList.toString());
+                    int c=0;
+                    //Log.e("Name"+c++,Image.attr("abs:src"));
+                    for (Element element:noteList){
+                        Elements title = element.select("div.views-field.views-field-title");
+                        Elements url =element.select("div.views-field.views-field-title").select("a");
+                        Elements Image = element.select("div.views-field.views-field-field-image").select("img");
+                        Elements detail = element.select("div.views-field.views-field-body");
+                        Elements time = element.select("span.views-field.views-field-created");
+                        //Log.e("Title"+c++,title.text()+" "+Image.attr("abs:src")+" "+detail.text()+" "+time.text()+" "+url.attr("abs:href"));
+                        list.add(new DataModel(title.text(),time.text(),detail.text(),Image.attr("abs:src"),url.attr("abs:href")));
+                    }
+                    for(int i =0;i<list.size();i++){
+                        Log.e("Title"+i,list.get(i).getTitle());
+                        Log.e("time"+i,list.get(i).getTime());
+                        Log.e("detail"+i,list.get(i).getDetail());
+                        Log.e("Image"+i,list.get(i).getImage());
+                        Log.e("url"+i,list.get(i).getUrl());
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.i("TAG", "run: " + e.getMessage());
+                }
+
+            }
+        }).start();
     }
 
 }

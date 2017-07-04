@@ -12,10 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.openweather.airnews.Adapter.RecyclerAdapter;
-import com.openweather.airnews.MainActivity;
+import com.openweather.airnews.LoadingSplash.SplashActivity;
 import com.openweather.airnews.R;
 import com.wj.refresh.OnRefreshListener;
 import com.wj.refresh.PullRefreshLayout;
+
+import org.jsoup.nodes.Document;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +28,7 @@ public class NewsFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter adapter;
     private PullRefreshLayout mRefreshLayout;
+    private Document document;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -42,13 +45,11 @@ public class NewsFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RecyclerAdapter(getActivity(), MainActivity.list);
+        adapter = new RecyclerAdapter(getActivity(), SplashActivity.list);
         recyclerView.setAdapter(adapter);
-
 
         mRefreshLayout = (PullRefreshLayout) view.findViewById(R.id.refresh_layout);
         initEvent();
-
         return view;
     }
 

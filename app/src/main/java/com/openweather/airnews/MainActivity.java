@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,25 +12,16 @@ import com.gongwen.marqueen.MarqueeView;
 import com.kekstudio.dachshundtablayout.DachshundTabLayout;
 import com.kekstudio.dachshundtablayout.indicators.DachshundIndicator;
 import com.openweather.airnews.Adapter.ViewPagerAdapter;
-import com.openweather.airnews.DataModel.DataModel;
 import com.openweather.airnews.Fragment.HomeFragment;
 import com.openweather.airnews.Fragment.NewsFragment;
 import com.openweather.airnews.Fragment.fragment_page;
 import com.openweather.airnews.Marquee.NoticeMF;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private Document document;
-    public static ArrayList<DataModel> list;
+
     private ViewPager viewPager;
     private DachshundTabLayout tabLayout;
     private ViewPagerAdapter viewPagerAdapter;
@@ -44,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        list=new ArrayList<DataModel>();
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
@@ -73,42 +62,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
 
-                try {
-                    document = Jsoup.connect("http://e-info.org.tw/taxonomy/term/258/all")
-                            .timeout(3000)
-                            .get();
-                    Elements noteList = document.select("div").select("#block-system-main").select("div.views-row");
-                    //Log.e("Data",noteList.toString());
-                    int c=0;
-                    //Log.e("Name"+c++,Image.attr("abs:src"));
-                    for (Element element:noteList){
-                        Elements title = element.select("div.views-field.views-field-title");
-                        Elements url =element.select("div.views-field.views-field-title").select("a");
-                        Elements Image = element.select("div.views-field.views-field-field-image").select("img");
-                        Elements detail = element.select("div.views-field.views-field-body");
-                        Elements time = element.select("span.views-field.views-field-created");
-                        //Log.e("Title"+c++,title.text()+" "+Image.attr("abs:src")+" "+detail.text()+" "+time.text()+" "+url.attr("abs:href"));
-                        list.add(new DataModel(title.text(),time.text(),detail.text(),Image.attr("abs:src"),url.attr("abs:href")));
-                    }
-                   for(int i =0;i<list.size();i++){
-                       Log.e("Title"+i,list.get(i).getTitle());
-                       Log.e("time"+i,list.get(i).getTime());
-                       Log.e("detail"+i,list.get(i).getDetail());
-                       Log.e("Image"+i,list.get(i).getImage());
-                       Log.e("url"+i,list.get(i).getUrl());
-                   }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.i("TAG", "run: " + e.getMessage());
-                }
-
-            }
-        }).start();
     }
 
 }
