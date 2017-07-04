@@ -2,6 +2,8 @@ package com.openweather.airnews.Fragment;
 
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.openweather.airnews.Adapter.RecyclerAdapter;
+import com.openweather.airnews.MainActivity;
 import com.openweather.airnews.R;
+import com.wj.refresh.OnRefreshListener;
+import com.wj.refresh.PullRefreshLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +25,7 @@ public class NewsFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter adapter;
+    private PullRefreshLayout mRefreshLayout;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -36,9 +42,36 @@ public class NewsFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RecyclerAdapter();
+        adapter = new RecyclerAdapter(getActivity(), MainActivity.list);
         recyclerView.setAdapter(adapter);
+
+
+        mRefreshLayout = (PullRefreshLayout) view.findViewById(R.id.refresh_layout);
+        initEvent();
+
         return view;
     }
+
+    private void initEvent() {
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onPullDownRefresh() {
+                mHandler.sendEmptyMessageDelayed(0, 5000);
+            }
+
+            @Override
+            public void onPullUpRefresh() {
+                mHandler.sendEmptyMessageDelayed(0, 5000);
+            }
+        });
+
+    }
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            mRefreshLayout.onRefreshComplete();
+        }
+    };
 
 }

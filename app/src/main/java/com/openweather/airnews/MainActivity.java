@@ -31,7 +31,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private Document document;
-    public ArrayList<DataModel> list;
+    public static ArrayList<DataModel> list;
     private ViewPager viewPager;
     private DachshundTabLayout tabLayout;
     private ViewPagerAdapter viewPagerAdapter;
