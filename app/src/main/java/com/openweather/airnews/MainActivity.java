@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private DachshundTabLayout tabLayout;
     private ViewPagerAdapter viewPagerAdapter;
-
+    private long temptime = 0;//計算退出秒數
     private MarqueeView marqueeView2;
     private final List<String> datas = Arrays.asList("2日北部、竹苗地區為普通等級","其他地區為良好等級。","指標污染物為臭氧(午後時段)", "3日、4日北部、竹苗地區為普通等級", "指標污染物為臭氧(午後時段)", "其他地區為良好等級。");
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ExitApplication.getInstance().addActivity(this);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
@@ -63,6 +65,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)//手機按鈕事件
+    {
+        // TODO Auto-generated method stub
+        if (1 == getSupportFragmentManager().getBackStackEntryCount()) {
+            getSupportFragmentManager().popBackStack();
+            return true;
+        }else{
+            if((keyCode == KeyEvent.KEYCODE_BACK)&&(event.getAction() == KeyEvent.ACTION_DOWN))
+            {
+                if(System.currentTimeMillis() - temptime >2000) // 2s內再次選擇back有效
+                {
+                    Toast.makeText(this, "再按一次離開", Toast.LENGTH_LONG).show();
+                    temptime = System.currentTimeMillis();
+                }
+                else {
+                    ExitApplication.getInstance().exit();
+                }
+
+                return true;
+
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

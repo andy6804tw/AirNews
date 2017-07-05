@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.openweather.airnews.DataModel.DataModel;
+import com.openweather.airnews.ExitApplication;
 import com.openweather.airnews.MainActivity;
 import com.openweather.airnews.R;
 
@@ -27,6 +29,8 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        ExitApplication.getInstance().addActivity(this);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         list=new ArrayList<DataModel>();
 

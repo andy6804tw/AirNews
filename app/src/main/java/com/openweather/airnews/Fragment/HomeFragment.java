@@ -58,7 +58,11 @@ public class HomeFragment extends Fragment {
             mDate+="0"+(month+1);
         else
             mDate+=(month+1);
-        //日期
+        //日期(先判斷是否00)
+        if(hour==0){
+            hour=24;
+            day-=1;
+        }
         if(Integer.toString(day).length()==1)
             mDate+="0"+day;
         else
