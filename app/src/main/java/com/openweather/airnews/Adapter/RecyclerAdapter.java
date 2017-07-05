@@ -5,11 +5,14 @@ package com.openweather.airnews.Adapter;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,9 +66,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder{
 
         public int currentItem;
+        private CardView card_view;
         public ImageView itemImage;
         public TextView itemTitle;
         public TextView itemDetail;
+        public TextView itemTime;
         //Footer
         public TextView tvFooter;
         private AVLoadingIndicatorView avi;
@@ -73,9 +78,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public ViewHolder(View itemView,int viewType) {
             super(itemView);
             if(viewType!=list.size()){
+                card_view=(CardView)itemView.findViewById(R.id.card_view);
                 itemImage = (ImageView)itemView.findViewById(R.id.item_image);
                 itemTitle = (TextView)itemView.findViewById(R.id.item_title);
                 itemDetail =(TextView)itemView.findViewById(R.id.item_detail);
+                itemTime =(TextView)itemView.findViewById(R.id.itemTime);
             }
             else {
                 tvFooter = (TextView) itemView.findViewById(R.id.tvFooter);
@@ -109,19 +116,26 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         //viewHolder.itemTitle.setText(titles[i]);
         //viewHolder.itemDetail.setText(details[i]);
         //viewHolder.itemImage.setImageResource(images[i]);
         if(position!=list.size()){
             new DownloadImageTask (viewHolder.itemImage).execute(list.get(position).getImage());
             viewHolder.itemTitle.setText(list.get(position).getTitle());
+            viewHolder.itemTime.setText(list.get(position).getTime());
+            viewHolder.card_view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(list.get(position).getUrl())));
+                }
+            });
         }else{
 
             addData();
             new Handler().postDelayed(new Runnable() {
                 @Override
-                public void run() {Toast.makeText(mContext,"Hhhh~",Toast.LENGTH_LONG).show();
+                public void run() {
                     notifyItemRemoved(10*page++);
                 }
             }, 1500);
@@ -133,7 +147,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     addData();
                     new Handler().postDelayed(new Runnable() {
                         @Override
-                        public void run() {Toast.makeText(mContext,"Hhhh~",Toast.LENGTH_LONG).show();
+                        public void run() {
                             notifyItemRemoved(10*page++);
                         }
                     }, 2500);

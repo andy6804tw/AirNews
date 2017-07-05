@@ -24,7 +24,7 @@ public class HomeFragment extends Fragment {
 
     private String mDate="";
     private Boolean mCheck=true;
-
+    View mView;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -35,11 +35,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view=inflater.inflate(R.layout.fragment_home, container, false);
+        mView=view;
+
         initTime();
 
-
-        new DownloadImageTask((ImageView) view.findViewById(R.id.imageView))
-                .execute("http://taqm.epa.gov.tw/taqm/map_Contour/"+mDate+"-0-33.jpg");
         return view;
     }
 
@@ -76,7 +75,9 @@ public class HomeFragment extends Fragment {
             else
                 mDate+="-"+(hour-2);
         }
-        Log.e("date",mDate);
+        //載入圖片
+        new DownloadImageTask((ImageView) mView.findViewById(R.id.imageView))
+                .execute("http://taqm.epa.gov.tw/taqm/map_Contour/"+mDate+"-0-33.jpg");
 
     }
 
