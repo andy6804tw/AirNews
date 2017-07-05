@@ -22,6 +22,7 @@ public class SplashActivity extends AppCompatActivity {
 
     public static ArrayList<DataModel> list;
     private static Document document;
+    private static int page=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
 
                 try {
-                    document = Jsoup.connect("http://e-info.org.tw/taxonomy/term/258/all")
+                    document = Jsoup.connect("http://e-info.org.tw/taxonomy/term/258/allall?page"+page++)
                             .timeout(3000)
                             .get();
                     Elements noteList = document.select("div").select("#block-system-main").select("div.views-row");

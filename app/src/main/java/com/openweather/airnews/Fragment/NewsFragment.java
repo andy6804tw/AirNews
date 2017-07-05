@@ -49,6 +49,7 @@ public class NewsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         mRefreshLayout = (PullRefreshLayout) view.findViewById(R.id.refresh_layout);
+        mRefreshLayout.setMode(0x1);
         initEvent();
         return view;
     }

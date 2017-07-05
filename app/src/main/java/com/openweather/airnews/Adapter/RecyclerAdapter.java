@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.openweather.airnews.DataModel.DataModel;
 import com.openweather.airnews.LoadingSplash.SplashActivity;
 import com.openweather.airnews.R;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -30,6 +32,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
@@ -50,6 +53,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private final Context mContext;
     private final int TYPE_FOOTER = titles.length;
     public ArrayList<DataModel> list;
+    private int page=1;
 
     public RecyclerAdapter(Context context,ArrayList<DataModel> list) {
         this.mContext = context;
@@ -64,22 +68,27 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public TextView itemDetail;
         //Footer
         public TextView tvFooter;
+        private AVLoadingIndicatorView avi;
 
         public ViewHolder(View itemView,int viewType) {
             super(itemView);
-            if(viewType!=SplashActivity.list.size()){
+            if(viewType!=list.size()){
                 itemImage = (ImageView)itemView.findViewById(R.id.item_image);
                 itemTitle = (TextView)itemView.findViewById(R.id.item_title);
                 itemDetail =(TextView)itemView.findViewById(R.id.item_detail);
             }
-            else
-                tvFooter =(TextView)itemView.findViewById(R.id.tvFooter);
+            else {
+                tvFooter = (TextView) itemView.findViewById(R.id.tvFooter);
+                avi= (AVLoadingIndicatorView)itemView.findViewById(R.id.avi);
+                avi.setIndicator("LineSpinFadeLoaderIndicator");
+                avi.show();
+            }
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     int position = getAdapterPosition();
 
-                    Snackbar.make(v, "Click detected on item " + position,
+                    Snackbar.make(v, "Click detected on item " + SplashActivity.list.size()+"  "+list.size()+" "+position,
                             Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
@@ -91,7 +100,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == SplashActivity.list.size()) {
+        if (viewType == list.size()) {
             return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.footer_layout, parent, false),viewType);
         }else
             return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.card_layout, parent, false),viewType);
@@ -104,35 +113,40 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         //viewHolder.itemTitle.setText(titles[i]);
         //viewHolder.itemDetail.setText(details[i]);
         //viewHolder.itemImage.setImageResource(images[i]);
-        if(position!=SplashActivity.list.size()){
-            new DownloadImageTask (viewHolder.itemImage).execute(SplashActivity.list.get(position).getImage());
-            viewHolder.itemTitle.setText(SplashActivity.list.get(position).getTitle());
+        if(position!=list.size()){
+            new DownloadImageTask (viewHolder.itemImage).execute(list.get(position).getImage());
+            viewHolder.itemTitle.setText(list.get(position).getTitle());
         }else{
+
+            addData();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {Toast.makeText(mContext,"Hhhh~",Toast.LENGTH_LONG).show();
+                    notifyItemRemoved(10*page++);
+                }
+            }, 1500);
+
                 viewHolder.tvFooter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(mContext,"Hi~",Toast.LENGTH_LONG).show();
-                    notifyItemRemoved(list.size());
-                    list.add(new DataModel("123","456","789", "101112","http://e-info.org.tw/sites/default/files/default_logo.png"));
-                    list.add(new DataModel("123","456","789", "101112","http://e-info.org.tw/sites/default/files/default_logo.png"));
-                    list.add(new DataModel("123","456","789", "101112","http://e-info.org.tw/sites/default/files/default_logo.png"));
-                    list.add(new DataModel("123","456","789", "101112","http://e-info.org.tw/sites/default/files/default_logo.png"));
-                    list.add(new DataModel("123","456","789", "101112","http://e-info.org.tw/sites/default/files/default_logo.png"));
-                    list.add(new DataModel("123","456","789", "101112","http://e-info.org.tw/sites/default/files/default_logo.png"));
+                    addData();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {Toast.makeText(mContext,"Hhhh~",Toast.LENGTH_LONG).show();
+                            notifyItemRemoved(10*page++);
+                        }
+                    }, 2500);
                    // notifyDataSetChanged();
                 }
             });
-        }
-        if(position==SplashActivity.list.size()-1){
-            //addData();
-            //notifyDataSetChanged();
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return SplashActivity.list.size()+1;
+        return list.size()+1;
     }
     @Override
     public int getItemViewType(int position) {return  position;}
@@ -167,7 +181,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             public void run() {
 
                 try {
-                    Document document = Jsoup.connect("http://e-info.org.tw/taxonomy/term/258/all?page=1")
+                    Document document = Jsoup.connect("http://e-info.org.tw/taxonomy/term/258/all?page="+page)
                             .timeout(3000)
                             .get();
                     Elements noteList = document.select("div").select("#block-system-main").select("div.views-row");
