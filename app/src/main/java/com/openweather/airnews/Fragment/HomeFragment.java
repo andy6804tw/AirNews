@@ -23,6 +23,7 @@ import java.util.Calendar;
 public class HomeFragment extends Fragment {
 
     private String mDate="";
+    private Boolean mCheck=true;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -50,20 +51,31 @@ public class HomeFragment extends Fragment {
         int day = c.get(Calendar.DAY_OF_MONTH);
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
-        
+
+        //年
         mDate=year+"";
+        //月份
         if(Integer.toString((month+1)).length()==1)
             mDate+="0"+(month+1);
         else
             mDate+=(month+1);
+        //日期
         if(Integer.toString(day).length()==1)
             mDate+="0"+day;
         else
             mDate+=day;
-        if(Integer.toString((hour-1)).length()==1)
-            mDate+="-0"+(hour-1);
-        else
-            mDate+="-"+(hour-1);
+        //小時並判斷錯誤偵測
+        if(mCheck){
+            if(Integer.toString((hour-1)).length()==1)
+                mDate+="-0"+(hour-1);
+            else
+                mDate+="-"+(hour-1);
+        }else{
+            if(Integer.toString((hour-2)).length()==1)
+                mDate+="-0"+(hour-2);
+            else
+                mDate+="-"+(hour-2);
+        }
         Log.e("date",mDate);
 
     }
@@ -83,6 +95,8 @@ public class HomeFragment extends Fragment {
                 mIcon11 = BitmapFactory.decodeStream(in);
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
+                mCheck=false;
+                initTime();
                 e.printStackTrace();
             }
             return mIcon11;
