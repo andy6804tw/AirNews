@@ -22,7 +22,6 @@ public class SplashActivity extends AppCompatActivity {
 
     public static ArrayList<DataModel> list;
     private static Document document;
-    private static int page=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
 
                 try {
-                    document = Jsoup.connect("http://e-info.org.tw/taxonomy/term/258/allall?page"+page++)
+                    document = Jsoup.connect("http://e-info.org.tw/taxonomy/term/258/allall?page0")
                             .timeout(3000)
                             .get();
                     Elements noteList = document.select("div").select("#block-system-main").select("div.views-row");
@@ -67,11 +66,11 @@ public class SplashActivity extends AppCompatActivity {
                         list.add(new DataModel(title.text(),time.text(),detail.text(),Image.attr("abs:src"),url.attr("abs:href")));
                     }
                     for(int i =0;i<list.size();i++){
-                        Log.e("Title"+i,list.get(i).getTitle());
+                       /* Log.e("Title"+i,list.get(i).getTitle());
                         Log.e("time"+i,list.get(i).getTime());
                         Log.e("detail"+i,list.get(i).getDetail());
                         Log.e("Image"+i,list.get(i).getImage());
-                        Log.e("url"+i,list.get(i).getUrl());
+                        Log.e("url"+i,list.get(i).getUrl());*/
                     }
 
                 } catch (IOException e) {

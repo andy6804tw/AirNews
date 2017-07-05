@@ -15,12 +15,14 @@ import android.widget.ImageView;
 import com.openweather.airnews.R;
 
 import java.io.InputStream;
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
 
+    private String mDate="";
 
     public HomeFragment() {
         // Required empty public constructor
@@ -32,10 +34,40 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view=inflater.inflate(R.layout.fragment_home, container, false);
+        initTime();
+
+
         new DownloadImageTask((ImageView) view.findViewById(R.id.imageView))
-                .execute("http://e-info.org.tw/sites/default/files/styles/article_list/public/34622196154_b9bc69779c_b.jpg?itok=A1NE3mRx");
+                .execute("http://taqm.epa.gov.tw/taqm/map_Contour/"+mDate+"-0-33.jpg");
         return view;
     }
+
+    private void initTime() {
+
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+        
+        mDate=year+"";
+        if(Integer.toString((month+1)).length()==1)
+            mDate+="0"+(month+1);
+        else
+            mDate+=(month+1);
+        if(Integer.toString(day).length()==1)
+            mDate+="0"+day;
+        else
+            mDate+=day;
+        if(Integer.toString((hour-1)).length()==1)
+            mDate+="-0"+(hour-1);
+        else
+            mDate+="-"+(hour-1);
+        Log.e("date",mDate);
+
+    }
+
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
@@ -60,4 +92,5 @@ public class HomeFragment extends Fragment {
             bmImage.setImageBitmap(result);
         }
     }
+
 }
