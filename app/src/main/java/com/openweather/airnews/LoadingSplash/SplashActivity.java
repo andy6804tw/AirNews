@@ -11,6 +11,7 @@ import com.openweather.airnews.DataModel.DataModel;
 import com.openweather.airnews.ExitApplication;
 import com.openweather.airnews.MainActivity;
 import com.openweather.airnews.R;
+import com.victor.loading.newton.NewtonCradleLoading;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,6 +25,7 @@ public class SplashActivity extends AppCompatActivity {
 
     public static ArrayList<DataModel> list;
     private static Document document;
+    private  NewtonCradleLoading loadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,10 @@ public class SplashActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         list=new ArrayList<DataModel>();
+
+        loadingView = (NewtonCradleLoading)findViewById(R.id.loadingView);
+        loadingView.start();
+        //loadingView.setLoadingColor(R.color.colorPrimary);
 
     }
 
