@@ -6,4 +6,12 @@
     <color name="windowBackground">#cbebf8</color>
     <color name="tvStatus1">#000000</color>
     <color name="tvStatus2">#bcb9b9</color>
+
+    <color name="alermAir1">#23ff24</color>
+    <color name="alermAir2">#ffff2b</color>
+    <color name="alermAir3">#ff9124</color>
+    <color name="alermAir4">#ff2424</color>
+    <color name="alermAir5">#8e3f96</color>
+    <color name="alermAir6">#7d0023</color>
+
 </resources>

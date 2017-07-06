@@ -87,6 +87,8 @@ public class HomeFragmentRVA extends RecyclerView.Adapter<HomeFragmentRVA.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 0) {
             return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.card_map, parent, false),viewType);
+        }else if(viewType==1){
+            return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.card_qai, parent, false),viewType);
         }else
             return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.card_now, parent, false),viewType);
 
