@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.openweather.airnews.Adapter.RecyclerAdapter;
+import com.openweather.airnews.Adapter.NewsFragmentRVA;
 import com.openweather.airnews.LoadingSplash.SplashActivity;
 import com.openweather.airnews.R;
 import com.wj.refresh.OnRefreshListener;
@@ -45,7 +45,7 @@ public class NewsFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RecyclerAdapter(getActivity(), SplashActivity.list);
+        adapter = new NewsFragmentRVA(getActivity(), SplashActivity.list);
         recyclerView.setAdapter(adapter);
 
         mRefreshLayout = (PullRefreshLayout) view.findViewById(R.id.refresh_layout);

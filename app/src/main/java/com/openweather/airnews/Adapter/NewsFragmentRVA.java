@@ -37,7 +37,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class NewsFragmentRVA extends RecyclerView.Adapter<NewsFragmentRVA.ViewHolder> {
 
     private String[] titles = {"Chapter One",
             "Chapter Two",
@@ -58,7 +58,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public ArrayList<DataModel> list;
     private int page=1;
 
-    public RecyclerAdapter(Context context,ArrayList<DataModel> list) {
+    public NewsFragmentRVA(Context context, ArrayList<DataModel> list) {
         this.mContext = context;
         this.list=list;
     }

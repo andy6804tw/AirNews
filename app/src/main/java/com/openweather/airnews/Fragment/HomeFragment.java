@@ -6,12 +6,15 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.openweather.airnews.Adapter.HomeFragmentRVA;
 import com.openweather.airnews.R;
 
 import java.io.InputStream;
@@ -25,6 +28,10 @@ public class HomeFragment extends Fragment {
     private String mDate="";
     private Boolean mCheck=true;
     View mView;
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    RecyclerView.Adapter adapter;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -36,6 +43,12 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view=inflater.inflate(R.layout.fragment_home, container, false);
         mView=view;
+
+        recyclerView =(RecyclerView) view.findViewById(R.id.HomeRecyclerView);
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new HomeFragmentRVA(getActivity());
+        recyclerView.setAdapter(adapter);
 
         initTime();
 
