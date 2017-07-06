@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#263238</color>
     <color name="colorAccent">#FF4081</color>
     <color name="windowBackground">#cbebf8</color>
+    <color name="tvStatus1">#000000</color>
+    <color name="tvStatus2">#bcb9b9</color>
 </resources>
