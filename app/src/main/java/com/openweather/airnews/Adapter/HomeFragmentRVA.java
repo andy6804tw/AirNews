@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.openweather.airnews.DataModel.DataModel;
 import com.openweather.airnews.R;
@@ -38,7 +39,7 @@ public class HomeFragmentRVA extends RecyclerView.Adapter<HomeFragmentRVA.ViewHo
     private int page=1;
     private String mDate="";
     private Boolean mCheck=true;
-    private Boolean mStatus=false;
+    private Boolean mStatus=true;
     private ViewHolder mViewHolder;
 
     public HomeFragmentRVA(Context context) {
@@ -54,6 +55,7 @@ public class HomeFragmentRVA extends RecyclerView.Adapter<HomeFragmentRVA.ViewHo
        //痊癒變數
         private ImageView imageView;
         private RelativeLayout mapRelativeLayout;
+        private TextView tvtvStatus1,tvtvStatus2;
 
         public ViewHolder(View itemView,int viewType) {
             super(itemView);
@@ -61,6 +63,8 @@ public class HomeFragmentRVA extends RecyclerView.Adapter<HomeFragmentRVA.ViewHo
                //FindViewByID
                 imageView=(ImageView)itemView.findViewById(R.id.imageView);
                 mapRelativeLayout=(RelativeLayout)itemView.findViewById(R.id.mapRelativeLayout);
+                tvtvStatus1=(TextView)itemView.findViewById(R.id.tvtvStatus1);
+                tvtvStatus2=(TextView)itemView.findViewById(R.id.tvtvStatus2);
             }
             else {
             }
@@ -90,22 +94,43 @@ public class HomeFragmentRVA extends RecyclerView.Adapter<HomeFragmentRVA.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
 
         if(position==0){
             mViewHolder=viewHolder;
             //載入時間+圖片
             initTime();
-            viewHolder.mapRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            //imageView圖片點擊事件
+            viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(mStatus) {
+                    if(mStatus){
+                        viewHolder.tvtvStatus1.setTextColor(mContext.getResources().getColor(R.color.tvStatus2));
+                        viewHolder.tvtvStatus2.setTextColor(mContext.getResources().getColor(R.color.tvStatus1));
                         mStatus = false;
                     }
                     else{
+                        viewHolder.tvtvStatus1.setTextColor(mContext.getResources().getColor(R.color.tvStatus1));
+                        viewHolder.tvtvStatus2.setTextColor(mContext.getResources().getColor(R.color.tvStatus2));
                         mStatus=true;
                     }
-
+                    initTime();
+                }
+            });
+            //RelativeLayout版面點擊事件
+            viewHolder.mapRelativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(mStatus){
+                        viewHolder.tvtvStatus1.setTextColor(mContext.getResources().getColor(R.color.tvStatus2));
+                        viewHolder.tvtvStatus2.setTextColor(mContext.getResources().getColor(R.color.tvStatus1));
+                        mStatus = false;
+                    }
+                    else{
+                        viewHolder.tvtvStatus1.setTextColor(mContext.getResources().getColor(R.color.tvStatus1));
+                        viewHolder.tvtvStatus2.setTextColor(mContext.getResources().getColor(R.color.tvStatus2));
+                        mStatus=true;
+                    }
                     initTime();
                 }
             });
@@ -203,7 +228,7 @@ public class HomeFragmentRVA extends RecyclerView.Adapter<HomeFragmentRVA.ViewHo
         Log.e("reset", "進入"+mDate);
         //載入圖片
         DownloadImageTask downloadImageTask=new DownloadImageTask(mViewHolder.imageView);
-        if(!mStatus)
+        if(mStatus)
             downloadImageTask.execute("http://taqm.epa.gov.tw/taqm/map_Contour/"+mDate+"-0-33.jpg");
         else
             downloadImageTask.execute("http://taqm.epa.gov.tw/taqm/map_Contour/"+mDate+"-6-33.jpg");
