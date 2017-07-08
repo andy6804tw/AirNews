@@ -31,7 +31,7 @@ public class NowFragment extends Fragment {
     private View mView;
     private SharedPreferences settings;
     //condition目前狀況
-    private TextView tvLocation,tv_temp,tv_low,tv_high,tvChill;
+    private TextView tvLocation,tv_temp,tv_low,tv_high;
     private TemperatureView temperatureView;
     //Icon
     private WeatherIconView weatherIconView;
@@ -60,13 +60,14 @@ public class NowFragment extends Fragment {
         tv_low = (TextView) view.findViewById(R.id.tv_low);
         tv_high = (TextView) view.findViewById(R.id.tv_high);
         tv_temp = (TextView) view.findViewById(R.id.tv_temp);
-        tvChill = (TextView) view.findViewById(R.id.tvChill);
         temperatureView = (TemperatureView) view.findViewById(R.id.temperatureView);
         tvLocation = (TextView) view.findViewById(R.id.tvLocation);
         weatherIconView = (WeatherIconView) view.findViewById(R.id.my_weather_icon);
 
         arc_progress=(ArcProgress)view.findViewById(R.id.arc_progress);
         AQIrelativeLayout=(RelativeLayout)view.findViewById(R.id.AQIrelativeLayout);
+        tvSiteName=(TextView)view.findViewById(R.id.tvSiteName);
+        tvPublishtime=(TextView)view.findViewById(R.id.tvPublishtime);
         tvStr=(TextView)view.findViewById(R.id.tvStr);
 
         initView();
@@ -123,9 +124,9 @@ public class NowFragment extends Fragment {
             cl3.moveToPosition(mIndex-1);
             tvStr.setText(cl3.getString(1));
             /*tvDes.setText(cl3.getString(3));
-            tvNormalsuggest.setText(cl3.getString(2));
+            tvNormalsuggest.setText(cl3.getString(2));*/
             tvSiteName.setText("測站: "+cl2.getString(2));
-            tvPublishtime.setText("最後更新時間: "+cl2.getString(1));*/
+            tvPublishtime.setText("最後更新時間: "+cl2.getString(1));
     }
 
     private void initWeatherIcon() {
