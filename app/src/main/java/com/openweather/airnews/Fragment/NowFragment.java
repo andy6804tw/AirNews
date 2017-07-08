@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.github.pwittchen.weathericonview.WeatherIconView;
 import com.openweather.airnews.DataBase.DBAccess;
 import com.openweather.airnews.R;
@@ -33,6 +35,12 @@ public class NowFragment extends Fragment {
     private TemperatureView temperatureView;
     //Icon
     private WeatherIconView weatherIconView;
+    //AQI
+    private ArcProgress arc_progress;
+    private int mIndex=0;
+    private RelativeLayout AQIrelativeLayout;
+    private TextView tvStr,tvDes,tvNormalsuggest,tvSiteName,tvPublishtime;
+
 
     public NowFragment() {
         // Required empty public constructor
@@ -57,8 +65,13 @@ public class NowFragment extends Fragment {
         tvLocation = (TextView) view.findViewById(R.id.tvLocation);
         weatherIconView = (WeatherIconView) view.findViewById(R.id.my_weather_icon);
 
+        arc_progress=(ArcProgress)view.findViewById(R.id.arc_progress);
+        AQIrelativeLayout=(RelativeLayout)view.findViewById(R.id.AQIrelativeLayout);
+        tvStr=(TextView)view.findViewById(R.id.tvStr);
+
         initView();
         initWeatherIcon();
+        initAQI();
 
         Cursor c = mAccess.getData("Location", null, null);
         c.moveToFirst();
@@ -74,6 +87,45 @@ public class NowFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void initAQI() {
+            Cursor cl2 = mAccess.getData("AIR", null, null);
+            cl2.moveToFirst();
+            Cursor cl3 = mAccess.getData("AQI", null, null);
+            cl3.moveToFirst();
+
+            if(cl2.getShort(2)>=0&&cl2.getShort(2)<=50){
+                mIndex=1;
+                AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air1);
+            }
+            else if(cl2.getShort(2)>=51&&cl2.getShort(2)<=100){
+                mIndex=2;
+                AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air2);
+            }
+            else if(cl2.getShort(2)>=101&&cl2.getShort(2)<=150){
+                mIndex=3;
+                AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air3);
+            }
+            else if(cl2.getShort(2)>=151&&cl2.getShort(2)<=200){
+                mIndex=4;
+                AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air4);
+            }
+            else if(cl2.getShort(2)>=201&&cl2.getShort(2)<=300){
+                mIndex=5;
+                AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air5);
+            }
+            else if(cl2.getShort(2)>=301&&cl2.getShort(2)<=500){
+                mIndex=6;
+                AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air6);
+            }
+            arc_progress.setProgress(cl2.getShort(3));
+            cl3.moveToPosition(mIndex-1);
+            tvStr.setText(cl3.getString(1));
+            /*tvDes.setText(cl3.getString(3));
+            tvNormalsuggest.setText(cl3.getString(2));
+            tvSiteName.setText("測站: "+cl2.getString(2));
+            tvPublishtime.setText("最後更新時間: "+cl2.getString(1));*/
     }
 
     private void initWeatherIcon() {
