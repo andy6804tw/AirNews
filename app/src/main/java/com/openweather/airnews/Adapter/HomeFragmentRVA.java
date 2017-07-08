@@ -59,7 +59,7 @@ public class HomeFragmentRVA extends RecyclerView.Adapter<HomeFragmentRVA.ViewHo
 
         public ViewHolder(View itemView,int viewType) {
             super(itemView);
-            if(viewType==0){
+            if(viewType==1){
                //FindViewByID
                 imageView=(ImageView)itemView.findViewById(R.id.imageView);
                 mapRelativeLayout=(RelativeLayout)itemView.findViewById(R.id.mapRelativeLayout);
@@ -86,9 +86,9 @@ public class HomeFragmentRVA extends RecyclerView.Adapter<HomeFragmentRVA.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 0) {
-            return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.card_map, parent, false),viewType);
-        }else if(viewType==1){
             return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.card_qai, parent, false),viewType);
+        }else if(viewType==1){
+            return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.card_map, parent, false),viewType);
         }else
             return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.card_now, parent, false),viewType);
 
@@ -98,7 +98,7 @@ public class HomeFragmentRVA extends RecyclerView.Adapter<HomeFragmentRVA.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
 
-        if(position==0){
+        if(position==1){
             mViewHolder=viewHolder;
             //載入時間+圖片
             initTime();

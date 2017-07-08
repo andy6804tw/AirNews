@@ -39,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragments(new HomeFragment(),"現在情況");
+        viewPagerAdapter.addFragments(new NowFragment(),"目前狀況");
         viewPagerAdapter.addFragments(new NewsFragment(),"新聞");
+        viewPagerAdapter.addFragments(new HomeFragment(),"看見空品");
         viewPagerAdapter.addFragments(new fragment_page(),"預報");
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(viewPagerAdapter);

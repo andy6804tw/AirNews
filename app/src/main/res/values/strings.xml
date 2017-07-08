@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">空汙小幫手</string>
 
+    <string name="tv_condition">目前狀態</string>
+    <string name="tvChill">體感溫度: </string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
