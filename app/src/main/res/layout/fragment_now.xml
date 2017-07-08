@@ -57,51 +57,32 @@
             android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="19dp"
             android:layout_alignBottom="@+id/temperatureView"
             android:layout_alignLeft="@+id/view"
-            android:layout_alignStart="@+id/view"
-            android:layout_below="@id/view"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="38dp"
-            android:layout_marginStart="38dp"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvChill"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_condition"
-                android:layout_marginBottom="3dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/tvChill"
-                android:textColor="#fff"
-
-                android:textSize="15sp" />
+            android:layout_alignStart="@+id/view">
 
             <TextView
                 android:id="@+id/tvLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvChill"
-                android:layout_marginBottom="0dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:text="台北市"
                 android:textColor="#fff"
-                android:textSize="25sp"
 
-                />
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/tv_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvLocation"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="0dp"
                 android:text="15°C"
                 android:textColor="#fff"
                 android:textSize="30sp" />
@@ -152,6 +133,18 @@
             </TableRow>
 
         </LinearLayout>
+
+        <com.github.pwittchen.weathericonview.WeatherIconView
+            android:id="@+id/my_weather_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view"
+            android:layout_marginTop="15dp"
+            android:layout_toLeftOf="@+id/temperatureView"
+            android:layout_toStartOf="@+id/temperatureView"
+            custom:weatherIconColor="@android:color/black"
+            custom:weatherIconResource="@string/wi_day_sunny_overcast"
+            custom:weatherIconSize="70" />
 
     </RelativeLayout>
 
