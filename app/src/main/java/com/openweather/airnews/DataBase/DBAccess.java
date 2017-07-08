@@ -70,6 +70,30 @@ public class DBAccess extends SQLiteOpenHelper {
         Log.e("SQLDB",sql4);
         db.execSQL(sql4);
 
+        String sql5 = "create table Condition("
+                +"loc_id int(10) not null primary key,"
+                +"date string(20),"
+                +"day string(5),"
+                +"high int(5),"
+                +"low int(5),"
+                +"temp int(5),"
+                +"code int(4),"
+                +"publish_time string(20)"
+                +")";
+        Log.e("SQLDB",sql5);
+        db.execSQL(sql5);
+
+
+        String sql6 = "create table Forecast("
+                + "forecast_id integer not null primary key,"
+                + "date varchar(15),"
+                + "day varchar(5),"
+                + "high int(5),"
+                + "low int(5),"
+                + "text varchar(20)"
+                + ")";
+        Log.e("SQLDB",sql6);
+        db.execSQL(sql6);
 
 
     }
@@ -80,6 +104,8 @@ public class DBAccess extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Air");
         db.execSQL("DROP TABLE IF EXISTS AQI");
         db.execSQL("DROP TABLE IF EXISTS PM25");
+        db.execSQL("DROP TABLE IF EXISTS Condition");
+        db.execSQL("DROP TABLE IF EXISTS Forecast");
         onCreate(db);
     }
 
@@ -285,6 +311,15 @@ public class DBAccess extends SQLiteOpenHelper {
                                 , "PM25_allergysuggest"}
                         , whereStr, null, null, null, orderbyStr);
             }
+            case "Condition":{
+                return db.query(NAME, new String[]{"loc_id", "date", "day", "high"
+                                , "low","temp","code","publish_time"}
+                        , whereStr, null, null, null, orderbyStr);
+            }
+            case "Forecast":{
+                return db.query(NAME, new String[]{"forecast_id","date","day","high","low","text"}
+                        , whereStr, null, null, null, orderbyStr);
+            }
             default: {
                 return null;
             }
@@ -358,5 +393,58 @@ public class DBAccess extends SQLiteOpenHelper {
         db.close();
         return result;//回傳更新資料筆數
     }
-
+    //Condition
+    public long add(String loc_id,String date,String day,Double high,Double low,Double temp,int code,String publish_time){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues values =new ContentValues();
+        values.put("loc_id",loc_id);
+        values.put("date",date);
+        values.put("day",day);
+        values.put("high",high);
+        values.put("low",low);
+        values.put("temp",temp);
+        values.put("code",code+"");
+        values.put("publish_time",publish_time);
+        return db.insert("Condition", null,values);
+    }
+    public long update(String loc_id,String date,String day,Double high,Double low,Double temp,int code,String publish_time,String whereClause){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues values =new ContentValues();
+        values.put("loc_id",loc_id);
+        values.put("date",date);
+        values.put("day",day);
+        values.put("high",high);
+        values.put("low",low);
+        values.put("temp",temp);
+        values.put("code",code);
+        values.put("publish_time",publish_time);
+        long result=db.update("Condition", values, whereClause, null);
+        db.close();
+        return result;//回傳更新資料筆數
+    }
+    //Forecast
+    public long add(String forecast_id,String date,String day,Double high,Double low,String text){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("forecast_id",forecast_id);
+        values.put("date",date);
+        values.put("day",day);
+        values.put("high",high);
+        values.put("low",low);
+        values.put("text",text);
+        return db.insert("Forecast",null,values);
+    }
+    public long update(String forecast_id,String date,String day,Double high,Double low,String text,String whereClause){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues values =new ContentValues();
+        //values.put("forecast_id",forecast_id);
+        values.put("date",date);
+        values.put("day",day);
+        values.put("high",high);
+        values.put("low",low);
+        values.put("text",text);
+        long result=db.update("Forecast", values, whereClause, null);
+        db.close();
+        return result;//回傳更新資料筆數
+    }
 }
