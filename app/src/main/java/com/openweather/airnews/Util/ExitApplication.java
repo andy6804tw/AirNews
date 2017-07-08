@@ -1,4 +1,4 @@
-package com.openweather.airnews;
+package com.openweather.airnews.Util;
 
 /**
  * Created by andy6804tw on 2017/7/5.

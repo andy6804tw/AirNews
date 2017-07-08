@@ -132,7 +132,6 @@ public class TaiwanFragment extends Fragment {
             else
                 mDate+="-"+(hour-2);
         }
-        Log.e("reset", "進入"+mDate);
         //載入圖片
         DownloadImageTask downloadImageTask=new DownloadImageTask(imageView);
         if(mStatus)

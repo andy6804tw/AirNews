@@ -39,5 +39,6 @@ dependencies {
     compile 'com.victor:lib:1.0.4'
     compile 'com.github.andy6804tw:ZoomImageView-lib:0.0.1'
     compile 'com.github.lzyzsd:circleprogress:1.2.1'
+    compile 'com.android.volley:volley:1.0.0'
     testCompile 'junit:junit:4.12'
 }

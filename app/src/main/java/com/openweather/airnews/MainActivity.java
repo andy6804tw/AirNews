@@ -14,9 +14,11 @@ import com.kekstudio.dachshundtablayout.DachshundTabLayout;
 import com.kekstudio.dachshundtablayout.indicators.DachshundIndicator;
 import com.openweather.airnews.Adapter.ViewPagerAdapter;
 import com.openweather.airnews.Fragment.NewsFragment;
+import com.openweather.airnews.Fragment.NowFragment;
 import com.openweather.airnews.Fragment.TaiwanFragment;
 import com.openweather.airnews.Fragment.fragment_page;
 import com.openweather.airnews.Marquee.NoticeMF;
+import com.openweather.airnews.Util.ExitApplication;
 
 import java.util.Arrays;
 import java.util.List;
