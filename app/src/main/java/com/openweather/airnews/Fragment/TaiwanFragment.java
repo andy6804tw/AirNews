@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.openweather.airnews.R;
 
 import java.io.InputStream;
@@ -27,11 +28,12 @@ public class TaiwanFragment extends Fragment {
 
     private String mDate="";
     private Boolean mCheck=true;
-    private Boolean mStatus=true;
+    private int mIndex=0;
     private View mView;
     private ImageView imageView;
     private RelativeLayout mapRelativeLayout;
     private TextView tvtvStatus1,tvtvStatus2;
+    private MaterialSpinner spinnerView;
 
     public TaiwanFragment() {
         // Required empty public constructor
@@ -48,51 +50,61 @@ public class TaiwanFragment extends Fragment {
         mapRelativeLayout=(RelativeLayout)view.findViewById(R.id.mapRelativeLayout);
         tvtvStatus1=(TextView)view.findViewById(R.id.tvtvStatus1);
         tvtvStatus2=(TextView)view.findViewById(R.id.tvtvStatus2);
+        spinnerView= (MaterialSpinner) view.findViewById(R.id.spinnerView);
 
-        init();
-        //initTime();
+        //init();
+        initTime();
+        initSpanner();
 
         return view;
     }
 
-    private void init() {
-        //載入時間+圖片
-        initTime();
-        //imageView圖片點擊事件
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mStatus){
-                    tvtvStatus1.setTextColor(getResources().getColor(R.color.tvStatus2));
-                    tvtvStatus2.setTextColor(getResources().getColor(R.color.tvStatus1));
-                    mStatus = false;
+    private void initSpanner() {
+
+        spinnerView.setItems("全台", "北部空品區", "竹苗空品區", "中部空品區", "雲嘉南空品區","高屏空品區","宜蘭空品區","花蓮空品區");
+        spinnerView.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                switch (position){
+                    case 0:
+                        mIndex=0;
+                        initTime();
+                        break;
+                    case 1:
+                        mIndex=1;
+                        initTime();
+                        break;
+                    case 2:
+                        mIndex=3;
+                        initTime();
+                        break;
+                    case 3:
+                        mIndex=4;
+                        initTime();
+                        break;
+                    case 4:
+                        mIndex=6;
+                        initTime();
+                        break;
+                    case 5:
+                        mIndex=7;
+                        initTime();
+                        break;
+                    case 6:
+                        mIndex=8;
+                        initTime();
+                        break;
+                    case 7:
+                        mIndex=9;
+                        initTime();
+                        break;
+                    default:
+                        break;
                 }
-                else{
-                    tvtvStatus1.setTextColor(getResources().getColor(R.color.tvStatus1));
-                    tvtvStatus2.setTextColor(getResources().getColor(R.color.tvStatus2));
-                    mStatus=true;
-                }
-                initTime();
-            }
-        });
-        //RelativeLayout版面點擊事件
-        mapRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mStatus){
-                    tvtvStatus1.setTextColor(getResources().getColor(R.color.tvStatus2));
-                    tvtvStatus2.setTextColor(getResources().getColor(R.color.tvStatus1));
-                    mStatus = false;
-                }
-                else{
-                    tvtvStatus1.setTextColor(getResources().getColor(R.color.tvStatus1));
-                    tvtvStatus2.setTextColor(getResources().getColor(R.color.tvStatus2));
-                    mStatus=true;
-                }
-                initTime();
             }
         });
     }
+
 
     private void initTime() {
 
@@ -135,10 +147,7 @@ public class TaiwanFragment extends Fragment {
         Log.e("time",mDate);
         //載入圖片
         DownloadImageTask downloadImageTask=new DownloadImageTask(imageView);
-        if(mStatus)
-            downloadImageTask.execute("http://taqm.epa.gov.tw/taqm/map_Contour/"+mDate+"-0-33.jpg");
-        else
-            downloadImageTask.execute("http://taqm.epa.gov.tw/taqm/map_Contour/"+mDate+"-6-33.jpg");
+        downloadImageTask.execute("http://taqm.epa.gov.tw/taqm/map_Contour/"+mDate+"-"+mIndex+"-33.jpg");
 
     }
 

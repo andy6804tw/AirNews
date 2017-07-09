@@ -34,6 +34,7 @@
             android:layout_marginLeft="13dp"
             android:layout_marginStart="13dp"
             android:layout_marginTop="37dp"
+            android:background="@drawable/button_border"
             android:text="Button" />
     </RelativeLayout>
 
