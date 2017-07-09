@@ -72,11 +72,39 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        initData();
+        initYahooData();
         GPSPremessionCheck();
 
     }
-    public static void initData(){
+    public static void initYahooData(){
+        //Yahoo天氣新聞
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    document = Jsoup.connect("https://video-weatherrisk-yahoopartner.tumblr.com/")
+                            .timeout(3000)
+                            .get();
+                    Elements noteList = document.select("div.post-content");
+                    Log.e("Data",noteList.select("h2.title").select("a").text().split(" ")[0]);
+                    Log.e("Data",noteList.select("p").text().split(" ")[0]);
+                    String url="https://tw.video.yahoo.com/weather/";
+                    String img="https://s.yimg.com/dh/ap/default/130909/y_200_a.png";
+                    list.add(0,new DataModel(noteList.select("h2.title").select("a").text().split(" ")[0],"time",noteList.select("p").text().split(" ")[0].substring(0,26)+"...",img,url));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.i("TAG", "run: " + e.getMessage());
+                }
+
+            }
+        }).start();
+        initAirData();
+    }
+    public static void initAirData(){
+
+        //環境新聞
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -96,7 +124,7 @@ public class SplashActivity extends AppCompatActivity {
                         Elements detail = element.select("div.views-field.views-field-body");
                         Elements time = element.select("span.views-field.views-field-created");
                         //Log.e("Title"+c++,title.text()+" "+Image.attr("abs:src")+" "+detail.text()+" "+time.text()+" "+url.attr("abs:href"));
-                        list.add(new DataModel(title.text(),time.text(),detail.text(),Image.attr("abs:src"),url.attr("abs:href")));
+                        list.add(new DataModel(title.text(),time.text(),detail.text().substring(0,25)+"...",Image.attr("abs:src"),url.attr("abs:href")));
                     }
                     for(int i =0;i<list.size();i++){
                        /* Log.e("Title"+i,list.get(i).getTitle());
@@ -113,6 +141,7 @@ public class SplashActivity extends AppCompatActivity {
 
             }
         }).start();
+
     }
     private void GPSPremessionCheck() {
         /**偵測權限**/

@@ -39,22 +39,8 @@ import java.util.ArrayList;
 
 public class NewsFragmentRVA extends RecyclerView.Adapter<NewsFragmentRVA.ViewHolder> {
 
-    private String[] titles = {"Chapter One",
-            "Chapter Two",
-            "Chapter Three",
-            "Chapter Four",
-            "Chapter Five",
-            "Chapter Six",
-            "Chapter Seven",
-            "Chapter Eight"};
 
-    private String[] details = {"Item one details",
-            "Item two details", "Item three details",
-            "Item four details", "Item file details",
-            "Item six details", "Item seven details",
-            "Item eight details"};
     private final Context mContext;
-    private final int TYPE_FOOTER = titles.length;
     public ArrayList<DataModel> list;
     private int page=1;
 
@@ -124,6 +110,7 @@ public class NewsFragmentRVA extends RecyclerView.Adapter<NewsFragmentRVA.ViewHo
             new DownloadImageTask (viewHolder.itemImage).execute(list.get(position).getImage());
             viewHolder.itemTitle.setText(list.get(position).getTitle());
             viewHolder.itemTime.setText(list.get(position).getTime());
+            viewHolder.itemDetail.setText(list.get(position).getDetail());
             viewHolder.card_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -132,13 +119,13 @@ public class NewsFragmentRVA extends RecyclerView.Adapter<NewsFragmentRVA.ViewHo
             });
         }else{
 
-            addData();
+           /* addData();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     notifyItemRemoved(10*page++);
                 }
-            }, 1500);
+            }, 1500);*/
 
                 viewHolder.tvFooter.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -148,7 +135,7 @@ public class NewsFragmentRVA extends RecyclerView.Adapter<NewsFragmentRVA.ViewHo
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            notifyItemRemoved(10*page++);
+                            notifyItemRemoved(10*page+++1);
                         }
                     }, 2500);
                    // notifyDataSetChanged();
