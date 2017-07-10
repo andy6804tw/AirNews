@@ -4,38 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.openweather.airnews.Fragment.fragment_page">
-
-    <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#83cfff">
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="17dp"
-            android:layout_marginStart="17dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/hello_blank_fragment"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            app:srcCompat="@mipmap/pm" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView"
-            android:layout_alignStart="@+id/textView"
-            android:layout_below="@+id/textView"
-            android:layout_marginLeft="13dp"
-            android:layout_marginStart="13dp"
-            android:layout_marginTop="37dp"
-            android:background="@drawable/button_border"
-            android:text="Button" />
-    </RelativeLayout>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+    </LinearLayout>
 
 </FrameLayout>
