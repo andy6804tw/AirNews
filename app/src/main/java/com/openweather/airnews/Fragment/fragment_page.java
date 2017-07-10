@@ -26,7 +26,6 @@ public class fragment_page extends Fragment {
         // Inflate the layout for this fragment
         final View view=inflater.inflate(R.layout.fragment_fragment_page, container, false);
 
-
         return view;
     }
 
