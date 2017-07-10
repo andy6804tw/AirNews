@@ -73,9 +73,47 @@ public class SplashActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         initYahooData();
+        initAirForecast();
         GPSPremessionCheck();
 
     }
+
+    private void initAirForecast() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="http://opendata.epa.gov.tw/webapi/api/rest/datastore/355000000I-000022?sort=PublishTime&offset=0&limit=1000";
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        //mTextView.setText("Response is: "+ response.substring(0,500));
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String Area=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(0).getString("Area");
+                            String Content=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(0).getString("Content");
+                            String MajorPollutant=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(0).getString("MajorPollutant");
+                            String AQI=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(0).getString("AQI");
+                            String ForecastDate=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(0).getString("ForecastDate");
+                            String PublishTime=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(0).getString("PublishTime");
+                            Log.e("Air_Forecast",Area+" "+Content.split("\r")[1]+" "+MajorPollutant+" "+AQI+" "+ForecastDate+" "+PublishTime);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(SplashActivity.this, "無法連接網路!", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
     public static void initYahooData(){
         //Yahoo天氣新聞
         new Thread(new Runnable() {
