@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.openweather.airnews.LoadingSplash.SplashActivity"
-    android:background="@drawable/splash">
+    android:background="@mipmap/splash">
 
     <com.victor.loading.newton.NewtonCradleLoading
         android:id="@+id/loadingView"

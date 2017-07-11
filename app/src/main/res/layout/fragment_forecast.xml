@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.openweather.airnews.Fragment.fragment_page">
+    tools:context="com.openweather.airnews.Fragment.ForecastFragment">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -272,14 +272,14 @@
                 android:textSize="14dp" />
 
             <!--<TextView-->
-                <!--android:id="@+id/tvMajorPollutant"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="10dp"-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:text="指標汙染物: 細懸浮微粒"-->
-                <!--android:textColor="#fff"-->
-                <!--android:textSize="14dp" />-->
+            <!--android:id="@+id/tvMajorPollutant"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:text="指標汙染物: 細懸浮微粒"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="14dp" />-->
 
             <TextView
                 android:id="@+id/tvContent"

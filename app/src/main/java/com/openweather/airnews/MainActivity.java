@@ -13,10 +13,10 @@ import com.gongwen.marqueen.MarqueeView;
 import com.kekstudio.dachshundtablayout.DachshundTabLayout;
 import com.kekstudio.dachshundtablayout.indicators.DachshundIndicator;
 import com.openweather.airnews.Adapter.ViewPagerAdapter;
+import com.openweather.airnews.Fragment.ForecastFragment;
 import com.openweather.airnews.Fragment.NewsFragment;
 import com.openweather.airnews.Fragment.NowFragment;
 import com.openweather.airnews.Fragment.TaiwanFragment;
-import com.openweather.airnews.Fragment.fragment_page;
 import com.openweather.airnews.Marquee.NoticeMF;
 import com.openweather.airnews.Util.ExitApplication;
 
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         viewPagerAdapter.addFragments(new NowFragment(),"目前狀況");
         viewPagerAdapter.addFragments(new NewsFragment(),"新聞");
         viewPagerAdapter.addFragments(new TaiwanFragment(),"看見空品");
-        viewPagerAdapter.addFragments(new fragment_page(),"預報");
+        viewPagerAdapter.addFragments(new ForecastFragment(),"預報");
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(viewPagerAdapter);
 
