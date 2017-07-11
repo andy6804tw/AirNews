@@ -256,7 +256,7 @@
             android:layout_height="190dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/round_box"
             android:orientation="vertical">
 

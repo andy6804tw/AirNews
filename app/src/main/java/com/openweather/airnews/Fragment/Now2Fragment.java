@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,11 @@ import com.openweather.airnews.View.TemperatureView;
 
 import static android.content.Context.MODE_PRIVATE;
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NowFragment extends Fragment {
+public class Now2Fragment extends Fragment {
 
     private DBAccess mAccess;
     private View mView;
@@ -39,68 +41,92 @@ public class NowFragment extends Fragment {
     private RelativeLayout AQIrelativeLayout;
     private TextView tvStr,tvDes,tvNormalsuggest,tvSiteName,tvPublishtime;
 
-    public NowFragment() {
+
+    public Now2Fragment() {
         // Required empty public constructor
+
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_now, container, false);
+        // Inflate the layout for this fragment
+        View view=inflater.inflate(R.layout.fragment_now2, container, false);
         mView=view;
         mAccess = new DBAccess(getContext(), "weather", null,1);
         settings=getActivity().getSharedPreferences("Data",MODE_PRIVATE);
 
+        tv_low = (TextView) view.findViewById(R.id.tv_low);
+        tv_high = (TextView) view.findViewById(R.id.tv_high);
+        tv_temp = (TextView) view.findViewById(R.id.tv_temp);
+        temperatureView = (TemperatureView) view.findViewById(R.id.temperatureView);
+        tvLocation = (TextView) view.findViewById(R.id.tvLocation);
+        weatherIconView = (WeatherIconView) view.findViewById(R.id.my_weather_icon);
+
         arc_progress=(ArcProgress)view.findViewById(R.id.arc_progress);
         AQIrelativeLayout=(RelativeLayout)view.findViewById(R.id.AQIrelativeLayout);
-        /*tvSiteName=(TextView)view.findViewById(R.id.tvSiteName);
-        tvPublishtime=(TextView)view.findViewById(R.id.tvPublishtime);*/
+        tvSiteName=(TextView)view.findViewById(R.id.tvSiteName);
+        tvPublishtime=(TextView)view.findViewById(R.id.tvPublishtime);
         tvStr=(TextView)view.findViewById(R.id.tvStr);
 
-        //initView();
-        //initWeatherIcon();
+        initView();
+        initWeatherIcon();
         initAQI();
+
+        Cursor c = mAccess.getData("Location", null, null);
+        c.moveToFirst();
+        Log.e("Loc",c.getString(0)+" "+c.getString(1)+" "+c.getString(2)+" "+c.getString(3)+" "+c.getString(4)+" "+c.getString(5)+" "+c.getString(6));
+
+        Cursor cl2 = mAccess.getData("Condition", null, null);
+        cl2.moveToFirst();
+        Log.e("Condition",cl2.getString(0)+" "+cl2.getString(1)+" "+cl2.getString(2)+" "+cl2.getString(3)+" "+cl2.getString(4)+" "+cl2.getString(5)+" "+cl2.getString(6)+" "+cl2.getString(7));
+
+        Cursor cl3 = mAccess.getData("Forecast", null, null);
+        //cl3.move(5);
+//        Log.e("Forecast",cl3.getString(0)+" "+cl3.getString(1)+" "+cl3.getString(2)+" "+cl3.getString(3)+" "+cl3.getString(4)+" "+cl3.getString(5));
+
 
         return view;
     }
-    private void initAQI() {
-        Cursor cl2 = mAccess.getData("AIR", null, null);
-        cl2.moveToFirst();
-        Cursor cl3 = mAccess.getData("AQI", null, null);
-        cl3.moveToFirst();
 
-        if(cl2.getShort(2)>=0&&cl2.getShort(2)<=50){
-            mIndex=1;
-            AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air1);
-        }
-        else if(cl2.getShort(2)>=51&&cl2.getShort(2)<=100){
-            mIndex=2;
-            AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air2);
-        }
-        else if(cl2.getShort(2)>=101&&cl2.getShort(2)<=150){
-            mIndex=3;
-            AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air3);
-        }
-        else if(cl2.getShort(2)>=151&&cl2.getShort(2)<=200){
-            mIndex=4;
-            AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air4);
-        }
-        else if(cl2.getShort(2)>=201&&cl2.getShort(2)<=300){
-            mIndex=5;
-            AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air5);
-        }
-        else if(cl2.getShort(2)>=301&&cl2.getShort(2)<=500){
-            mIndex=6;
-            AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air6);
-        }
-        arc_progress.setProgress(cl2.getShort(3));
-        cl3.moveToPosition(mIndex-1);
-        tvStr.setText(cl3.getString(1));
+    private void initAQI() {
+            Cursor cl2 = mAccess.getData("AIR", null, null);
+            cl2.moveToFirst();
+            Cursor cl3 = mAccess.getData("AQI", null, null);
+            cl3.moveToFirst();
+
+            if(cl2.getShort(2)>=0&&cl2.getShort(2)<=50){
+                mIndex=1;
+                AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air1);
+            }
+            else if(cl2.getShort(2)>=51&&cl2.getShort(2)<=100){
+                mIndex=2;
+                AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air2);
+            }
+            else if(cl2.getShort(2)>=101&&cl2.getShort(2)<=150){
+                mIndex=3;
+                AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air3);
+            }
+            else if(cl2.getShort(2)>=151&&cl2.getShort(2)<=200){
+                mIndex=4;
+                AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air4);
+            }
+            else if(cl2.getShort(2)>=201&&cl2.getShort(2)<=300){
+                mIndex=5;
+                AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air5);
+            }
+            else if(cl2.getShort(2)>=301&&cl2.getShort(2)<=500){
+                mIndex=6;
+                AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air6);
+            }
+            arc_progress.setProgress(cl2.getShort(3));
+            cl3.moveToPosition(mIndex-1);
+            tvStr.setText(cl3.getString(1));
             /*tvDes.setText(cl3.getString(3));
             tvNormalsuggest.setText(cl3.getString(2));*/
-/*        tvSiteName.setText("測站: "+cl2.getString(2));
-        tvPublishtime.setText("最後更新時間: "+cl2.getString(1));*/
+            tvSiteName.setText("測站: "+cl2.getString(2));
+            tvPublishtime.setText("最後更新時間: "+cl2.getString(1));
     }
 
     private void initWeatherIcon() {
