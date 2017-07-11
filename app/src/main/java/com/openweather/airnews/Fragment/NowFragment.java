@@ -52,6 +52,11 @@ public class NowFragment extends Fragment {
         mAccess = new DBAccess(getContext(), "weather", null,1);
         settings=getActivity().getSharedPreferences("Data",MODE_PRIVATE);
 
+        //左邊天氣
+        weatherIconView = (WeatherIconView) view.findViewById(R.id.my_weather_icon);
+        tv_temp = (TextView) view.findViewById(R.id.tv_temp);
+        tvLocation = (TextView) view.findViewById(R.id.tvLocation);
+        //右邊AQI
         arc_progress=(ArcProgress)view.findViewById(R.id.arc_progress);
         AQIrelativeLayout=(RelativeLayout)view.findViewById(R.id.AQIrelativeLayout);
         /*tvSiteName=(TextView)view.findViewById(R.id.tvSiteName);
@@ -59,10 +64,31 @@ public class NowFragment extends Fragment {
         tvStr=(TextView)view.findViewById(R.id.tvStr);
 
         //initView();
-        //initWeatherIcon();
+        initWeather();
         initAQI();
 
         return view;
+    }
+    private void initWeather() {
+        Cursor cl2 = mAccess.getData("Condition", null, null);
+        cl2.moveToFirst();
+        weatherIconView.setIconSize(95);
+        weatherIconView.setIconColor(Color.WHITE);
+        //天氣圖示
+        weatherIconView.setIconResource(weatherIcon(cl2.getShort(6)));
+        //設定氣溫與位置
+        //設定位置與溫度
+        Cursor c = mAccess.getData("Location", null, null);
+        c.moveToFirst();
+        final Cursor c2 = mAccess.getData("Condition", null, null);
+        c2.moveToFirst();
+
+        tvLocation.setText(c.getString(2)+"/"+c.getString(3));
+        if(settings.getString("Temperature","").equals("°C")||settings.getString("Temperature","").equals("")) {
+            tv_temp.setText(Math.round((c2.getShort(5)-32)*5/9.)+"°");
+        }else{
+            tv_temp.setText(c2.getString(5)+"°");
+        }
     }
     private void initAQI() {
         Cursor cl2 = mAccess.getData("AIR", null, null);
@@ -101,80 +127,6 @@ public class NowFragment extends Fragment {
             tvNormalsuggest.setText(cl3.getString(2));*/
 /*        tvSiteName.setText("測站: "+cl2.getString(2));
         tvPublishtime.setText("最後更新時間: "+cl2.getString(1));*/
-    }
-
-    private void initWeatherIcon() {
-        Cursor cl2 = mAccess.getData("Condition", null, null);
-        cl2.moveToFirst();
-        weatherIconView.setIconSize(85);
-        weatherIconView.setIconColor(Color.WHITE);
-        //天氣圖示
-        weatherIconView.setIconResource(weatherIcon(cl2.getShort(6)));
-    }
-
-    private void initView() {
-        Cursor c = mAccess.getData("Location", null, null);
-        c.moveToFirst();
-        final Cursor c2 = mAccess.getData("Condition", null, null);
-        c2.moveToFirst();
-        long temp=Math.round((c2.getShort(5)-32)*5/9.);
-        if(temp<-9)
-            temperatureView.start((temp-16));
-        else if(temp<5)
-            temperatureView.start(temp-12);
-        else if(temp<11)
-            temperatureView.start((temp-7));
-        else if(temp<16)
-            temperatureView.start((temp-4));
-        else if(temp<20)
-            temperatureView.start(temp-2);
-        else if(temp<30&&temp>=25)
-            temperatureView.start(temp+2);
-        else if(temp>=35)
-            temperatureView.start(temp+6);
-        else if(temp>=30)
-            temperatureView.start(temp+4);
-        else
-            temperatureView.start(temp);
-        tvLocation.setText(c.getString(2));
-        /*if(settings.getString("Temperature","").equals("°C")||settings.getString("Temperature","").equals("")) {
-            tvChill.setText(getActivity().getString(R.string.tvChill)+" "+Math.round((c3.getShort(1)-32)*5/9.)+"°C");
-        }else{
-            tvChill.setText(getActivity().getString(R.string.tvChill)+" "+c3.getString(1)+"°F");
-        }*/
-        if(settings.getString("Temperature","").equals("°C")||settings.getString("Temperature","").equals("")) {
-            tv_high.setText(Math.round((c2.getShort(3)-32)*5/9.)+"°");
-            tv_low.setText(Math.round((c2.getShort(4)-32)*5/9.)+"°");
-            tv_temp.setText(Math.round((c2.getShort(5)-32)*5/9.)+"°");
-        }else{
-            tv_high.setText(c2.getString(3)+"°");
-            tv_low.setText(c2.getString(4)+"°");
-            tv_temp.setText(c2.getString(5)+"°");
-        }
-        temperatureView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                long temp=Math.round((c2.getShort(5)-32)*5/9.);
-                if(temp<-9)
-                    temperatureView.start((temp-16));
-                else if(temp<5)
-                    temperatureView.start(temp-12);
-                else if(temp<11)
-                    temperatureView.start((temp-7));
-                else if(temp<16)
-                    temperatureView.start((temp-4));
-                else if(temp<20)
-                    temperatureView.start(temp-2);
-                else if(temp<30&&temp>=25)
-                    temperatureView.start(temp+2);
-                else if(temp>=35)
-                    temperatureView.start(temp+6);
-                else if(temp>=30)
-                    temperatureView.start(temp+4);
-                else
-                    temperatureView.start(temp);
-            }
-        });
     }
     public String weatherIcon(int code){
         //天氣圖示

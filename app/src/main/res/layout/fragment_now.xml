@@ -15,10 +15,40 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:orientation="vertical"
             android:background="@drawable/round_box"
             android:layout_marginRight="3dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="3dp">
+
+            <com.github.pwittchen.weathericonview.WeatherIconView
+                android:id="@+id/my_weather_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="130dp"
+                android:layout_below="@+id/view"
+                android:layout_gravity="center_horizontal"
+                custom:weatherIconColor="@android:color/black"
+                custom:weatherIconResource="@string/wi_day_sunny_overcast"
+                custom:weatherIconSize="70" />
+
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="台北市/大安區"
+                android:textColor="#fff"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/tv_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="28 °C"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#fff"
+                android:textSize="30dp" />
 
         </LinearLayout>
         <!--右邊AQI-->
@@ -33,11 +63,11 @@
             android:background="@drawable/round_box">
             <com.github.lzyzsd.circleprogress.ArcProgress
                 android:id="@+id/arc_progress"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:layout_marginBottom="5dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                custom:arc_bottom_text="0            500"
+                custom:arc_bottom_text="0          500"
                 custom:arc_bottom_text_size="12dp"
                 custom:arc_finished_color="#1561bf"
                 custom:arc_max="500"
@@ -46,7 +76,7 @@
                 custom:arc_suffix_text=" "
                 custom:arc_suffix_text_padding="17dp"
                 custom:arc_text_color="#FFF"
-                custom:arc_text_size="45dp"
+                custom:arc_text_size="35dp"
                 custom:arc_unfinished_color="#e0eeff"
                 android:layout_gravity="center_horizontal"/>
 
@@ -54,12 +84,11 @@
                 android:id="@+id/tvPM25"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="5dp"
                 android:text="空氣指標 AQI"
                 android:textColor="#fff"
-                android:textSize="15sp"
-                android:layout_gravity="center_horizontal"/>
+                android:textSize="20sp" />
 
             <RelativeLayout
                 android:id="@+id/AQIrelativeLayout"
