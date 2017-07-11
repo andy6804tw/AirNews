@@ -29,9 +29,10 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/rlRegion1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/circle_pm1"></RelativeLayout>
+                    android:background="@drawable/circle_air1"></RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv1"
@@ -50,9 +51,10 @@
                 android:paddingLeft="40dp">
 
                 <RelativeLayout
+                    android:id="@+id/rlRegion2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/circle_pm2"></RelativeLayout>
+                    android:background="@drawable/circle_air2"></RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv2"
@@ -71,9 +73,10 @@
                 android:paddingLeft="40dp">
 
                 <RelativeLayout
+                    android:id="@+id/rlRegion3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/circle_pm3"></RelativeLayout>
+                    android:background="@drawable/circle_air3"></RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv3"
@@ -92,9 +95,10 @@
                 android:paddingLeft="40dp">
 
                 <RelativeLayout
+                    android:id="@+id/rlRegion4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/circle_pm4"></RelativeLayout>
+                    android:background="@drawable/circle_air4"></RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv4"
@@ -113,9 +117,10 @@
                 android:paddingLeft="40dp">
 
                 <RelativeLayout
+                    android:id="@+id/rlRegion5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/circle_pm5"></RelativeLayout>
+                    android:background="@drawable/circle_air5"></RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv5"
@@ -142,9 +147,10 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/rlRegion6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/circle_pm6"></RelativeLayout>
+                    android:background="@drawable/circle_air6"></RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv6"
@@ -163,9 +169,10 @@
                 android:paddingLeft="40dp">
 
                 <RelativeLayout
+                    android:id="@+id/rlRegion7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/circle_pm7"></RelativeLayout>
+                    android:background="@drawable/circle_air1"></RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv7"
@@ -184,9 +191,10 @@
                 android:paddingLeft="40dp">
 
                 <RelativeLayout
+                    android:id="@+id/rlRegion8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/circle_pm8"></RelativeLayout>
+                    android:background="@drawable/circle_air1"></RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv8"
@@ -205,9 +213,10 @@
                 android:paddingLeft="40dp">
 
                 <RelativeLayout
+                    android:id="@+id/rlRegion9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/circle_pm9"></RelativeLayout>
+                    android:background="@drawable/circle_air1"></RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv9"
@@ -226,9 +235,10 @@
                 android:paddingLeft="40dp">
 
                 <RelativeLayout
+                    android:id="@+id/rlRegion10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/circle_pm10"></RelativeLayout>
+                    android:background="@drawable/circle_air1"></RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv10"
@@ -256,20 +266,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:text="空品區: 雲嘉南"
                 android:textColor="#fff"
                 android:textSize="14dp" />
 
-            <TextView
-                android:id="@+id/tvMajorPollutant"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="8dp"
-                android:text="指標汙染物: 細懸浮微粒"
-                android:textColor="#fff"
-                android:textSize="14dp" />
+            <!--<TextView-->
+                <!--android:id="@+id/tvMajorPollutant"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:text="指標汙染物: 細懸浮微粒"-->
+                <!--android:textColor="#fff"-->
+                <!--android:textSize="14dp" />-->
 
             <TextView
                 android:id="@+id/tvContent"
@@ -277,7 +287,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 android:text="1.10日北部地區為普通等級，指標污染物為細懸浮微粒及臭氧(午後時段)，其他地區為良好等級。
                 2.11、12日西半部地區為普通等級，指標污染物為細懸浮微粒及臭氧(午後時段)，其他地區為良好等級。\r"
                 android:textColor="#fff"
@@ -289,7 +299,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="8dp"
                 android:text="預報日期: 2017-07-10"

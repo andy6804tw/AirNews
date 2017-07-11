@@ -91,13 +91,23 @@ public class SplashActivity extends AppCompatActivity {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            String Area=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(0).getString("Area");
-                            String Content=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(0).getString("Content");
-                            String MajorPollutant=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(0).getString("MajorPollutant");
-                            String AQI=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(0).getString("AQI");
-                            String ForecastDate=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(0).getString("ForecastDate");
-                            String PublishTime=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(0).getString("PublishTime");
-                            Log.e("Air_Forecast",Area+" "+Content.split("\r")[1]+" "+MajorPollutant+" "+AQI+" "+ForecastDate+" "+PublishTime);
+                            int index[]={0,3,6,9,12,15,18,21,22,23};
+                            Cursor cl7 = mAccess.getData("PMForecast", null, null);
+                            cl7.moveToFirst();
+                            for(int i=0;i<index.length;i++){
+                                String Area=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(index[i]).getString("Area");
+                                String Content=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(index[i]).getString("Content");
+                                String MajorPollutant=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(index[i]).getString("MajorPollutant");
+                                String AQI=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(index[i]).getString("AQI");
+                                String ForecastDate=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(index[i]).getString("ForecastDate");
+                                String PublishTime=jsonObject.getJSONObject("result").getJSONArray("records").getJSONObject(index[i]).getString("PublishTime");
+                                //Log.e("Air_Forecast",Area+" "+Content.split("\r")[1]+" "+MajorPollutant+" "+AQI+" "+ForecastDate+" "+PublishTime);
+                                if(cl7.getCount()!=10){
+                                    mAccess.add(i+"",Area,Integer.parseInt(AQI),MajorPollutant,Content,ForecastDate);
+                                }else{
+                                    mAccess.update(i+"",Area,Integer.parseInt(AQI),MajorPollutant,Content,ForecastDate,"pmforecast_id ="+i);
+                                }
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -338,7 +348,7 @@ public class SplashActivity extends AppCompatActivity {
                                 //寫入 Condition資料表
                                 mAccess.add("1", date, day, Double.parseDouble(high), Double.parseDouble(low), Double.parseDouble(temp), Integer.parseInt(code),publish_time);
                                 //寫入 Forecast
-                                for(int i=0;i<10;i++){
+                               /* for(int i=0;i<10;i++){
                                     //預報Forecast
                                     String forecast_date = jsonObject.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONArray("forecast").getJSONObject(i).getString("date");
                                     String forecast_day = jsonObject.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONArray("forecast").getJSONObject(i).getString("day");
@@ -346,7 +356,7 @@ public class SplashActivity extends AppCompatActivity {
                                     String forecast_low = jsonObject.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONArray("forecast").getJSONObject(i).getString("low");
                                     String forecast_code = jsonObject.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONArray("forecast").getJSONObject(i).getString("code");
                                     mAccess.add(i+"", forecast_date, forecast_day,Double.parseDouble(forecast_high),Double.parseDouble(forecast_low),forecast_code);
-                                }
+                                }*/
 
                             }else{
                                 //Toast.makeText(SplashActivity.this,publish_time,Toast.LENGTH_SHORT).show();
@@ -354,7 +364,7 @@ public class SplashActivity extends AppCompatActivity {
                                 //寫入 Condition資料表
                                 mAccess.update("1", date, day, Double.parseDouble(high), Double.parseDouble(low), Double.parseDouble(temp), Integer.parseInt(code),publish_time,null);
                                 //寫入 Forecast
-                                for(int i=0;i<10;i++){
+                               /* for(int i=0;i<10;i++){
                                     //預報Forecast
                                     String forecast_date = jsonObject.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONArray("forecast").getJSONObject(i).getString("date");
                                     String forecast_day = jsonObject.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONArray("forecast").getJSONObject(i).getString("day");
@@ -362,7 +372,7 @@ public class SplashActivity extends AppCompatActivity {
                                     String forecast_low = jsonObject.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONArray("forecast").getJSONObject(i).getString("low");
                                     String forecast_code = jsonObject.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONArray("forecast").getJSONObject(i).getString("code");
                                     mAccess.update(i+"", forecast_date, forecast_day,Double.parseDouble(forecast_high),Double.parseDouble(forecast_low),forecast_code,"forecast_id ="+i);
-                                }
+                                }*/
                             }
 
                         } catch (JSONException e) {

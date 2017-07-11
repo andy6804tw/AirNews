@@ -83,8 +83,8 @@ public class NowFragment extends Fragment {
         Log.e("Condition",cl2.getString(0)+" "+cl2.getString(1)+" "+cl2.getString(2)+" "+cl2.getString(3)+" "+cl2.getString(4)+" "+cl2.getString(5)+" "+cl2.getString(6)+" "+cl2.getString(7));
 
         Cursor cl3 = mAccess.getData("Forecast", null, null);
-        cl3.move(5);
-        Log.e("Forecast",cl3.getString(0)+" "+cl3.getString(1)+" "+cl3.getString(2)+" "+cl3.getString(3)+" "+cl3.getString(4)+" "+cl3.getString(5));
+        //cl3.move(5);
+//        Log.e("Forecast",cl3.getString(0)+" "+cl3.getString(1)+" "+cl3.getString(2)+" "+cl3.getString(3)+" "+cl3.getString(4)+" "+cl3.getString(5));
 
 
         return view;

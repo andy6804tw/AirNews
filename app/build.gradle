@@ -42,5 +42,6 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.github.pwittchen:weathericonview:1.1.0'
     compile 'com.jaredrummler:material-spinner:1.1.0'
+    compile 'com.github.andy6804tw:TrendChartView:0.0.1'
     testCompile 'junit:junit:4.12'
 }

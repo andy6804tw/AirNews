@@ -95,6 +95,17 @@ public class DBAccess extends SQLiteOpenHelper {
         Log.e("SQLDB",sql6);
         db.execSQL(sql6);
 
+        String sql7 = "create table PMForecast("
+                + "pmforecast_id integer not null primary key,"
+                + "Area char(10),"
+                + "AQI int(5),"
+                + "MajorPollutant char(5),"
+                + "Content varchar(100),"
+                + "ForecastDate varchar(15)"
+                + ")";
+        Log.e("SQLDB",sql7);
+        db.execSQL(sql7);
+
 
     }
 
@@ -106,6 +117,7 @@ public class DBAccess extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS PM25");
         db.execSQL("DROP TABLE IF EXISTS Condition");
         db.execSQL("DROP TABLE IF EXISTS Forecast");
+        db.execSQL("DROP TABLE IF EXISTS PMForecast");
         onCreate(db);
     }
 
@@ -319,6 +331,9 @@ public class DBAccess extends SQLiteOpenHelper {
             case "Forecast":{
                 return db.query(NAME, new String[]{"forecast_id","date","day","high","low","text"}
                         , whereStr, null, null, null, orderbyStr);
+            }case "PMForecast":{
+                return db.query(NAME, new String[]{"pmforecast_id","Area","AQI","MajorPollutant","Content","ForecastDate"}
+                        , whereStr, null, null, null, orderbyStr);
             }
             default: {
                 return null;
@@ -444,6 +459,32 @@ public class DBAccess extends SQLiteOpenHelper {
         values.put("low",low);
         values.put("text",text);
         long result=db.update("Forecast", values, whereClause, null);
+        db.close();
+        return result;//回傳更新資料筆數
+    }
+    //PMForecast
+    public long add(String pmforecast_id,String Area,int AQI,String MajorPollutant,String Content,String ForecastDate){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("pmforecast_id",pmforecast_id);
+        values.put("Area",Area);
+        values.put("AQI",AQI);
+        values.put("MajorPollutant",MajorPollutant);
+        values.put("Content",Content);
+        values.put("ForecastDate",ForecastDate);
+        return db.insert("PMForecast",null,values);
+    }
+    public long update(String pmforecast_id,String Area,int AQI,String MajorPollutant,String Content,String ForecastDate,String whereClause){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues values =new ContentValues();
+        //values.put("forecast_id",forecast_id);
+        //values.put("pmforecast_id",pmforecast_id);
+        values.put("Area",Area);
+        values.put("AQI",AQI);
+        values.put("MajorPollutant",MajorPollutant);
+        values.put("Content",Content);
+        values.put("ForecastDate",ForecastDate);
+        long result=db.update("PMForecast", values, whereClause, null);
         db.close();
         return result;//回傳更新資料筆數
     }
