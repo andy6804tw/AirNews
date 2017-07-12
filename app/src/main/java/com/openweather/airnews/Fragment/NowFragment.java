@@ -4,25 +4,39 @@ package com.openweather.airnews.Fragment;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.icu.util.Calendar;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.andy6804tw.trendchartviewlib.HorizontalScrollChartParentView;
+import com.andy6804tw.trendchartviewlib.ITrendData;
+import com.andy6804tw.trendchartviewlib.TrendChartView;
+import com.andy6804tw.trendchartviewlib.TrendYAxisView;
 import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.github.pwittchen.weathericonview.WeatherIconView;
 import com.openweather.airnews.DataBase.DBAccess;
+import com.openweather.airnews.DataModel.TrendHourBean;
 import com.openweather.airnews.R;
+import com.openweather.airnews.Util.Utils;
 import com.openweather.airnews.View.TemperatureView;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class NowFragment extends Fragment {
 
     private DBAccess mAccess;
@@ -38,6 +52,10 @@ public class NowFragment extends Fragment {
     private int mIndex=0;
     private RelativeLayout AQIrelativeLayout;
     private TextView tvStr,tvDes,tvNormalsuggest,tvSiteName,tvPublishtime;
+    //AQI VIew
+    private TrendYAxisView trendYAxis;
+    private HorizontalScrollChartParentView svContainer;
+    private TrendChartView trendChartView;
 
     public NowFragment() {
         // Required empty public constructor
@@ -59,11 +77,12 @@ public class NowFragment extends Fragment {
         //右邊AQI
         arc_progress=(ArcProgress)view.findViewById(R.id.arc_progress);
         AQIrelativeLayout=(RelativeLayout)view.findViewById(R.id.AQIrelativeLayout);
-        /*tvSiteName=(TextView)view.findViewById(R.id.tvSiteName);
-        tvPublishtime=(TextView)view.findViewById(R.id.tvPublishtime);*/
         tvStr=(TextView)view.findViewById(R.id.tvStr);
+        //底部測站、更新時間
+        tvSiteName=(TextView)view.findViewById(R.id.tvSiteName);
+        tvPublishtime=(TextView)view.findViewById(R.id.tvPublishtime);
 
-        //initView();
+        initAQIView();
         initWeather();
         initAQI();
 
@@ -72,7 +91,7 @@ public class NowFragment extends Fragment {
     private void initWeather() {
         Cursor cl2 = mAccess.getData("Condition", null, null);
         cl2.moveToFirst();
-        weatherIconView.setIconSize(95);
+        weatherIconView.setIconSize(90);
         weatherIconView.setIconColor(Color.WHITE);
         //天氣圖示
         weatherIconView.setIconResource(weatherIcon(cl2.getShort(6)));
@@ -85,9 +104,9 @@ public class NowFragment extends Fragment {
 
         tvLocation.setText(c.getString(2)+"/"+c.getString(3));
         if(settings.getString("Temperature","").equals("°C")||settings.getString("Temperature","").equals("")) {
-            tv_temp.setText(Math.round((c2.getShort(5)-32)*5/9.)+"°");
+            tv_temp.setText(Math.round((c2.getShort(5)-32)*5/9.)+" °C");
         }else{
-            tv_temp.setText(c2.getString(5)+"°");
+            tv_temp.setText(c2.getString(5)+" °F");
         }
     }
     private void initAQI() {
@@ -123,10 +142,8 @@ public class NowFragment extends Fragment {
         arc_progress.setProgress(cl2.getShort(3));
         cl3.moveToPosition(mIndex-1);
         tvStr.setText(cl3.getString(1));
-            /*tvDes.setText(cl3.getString(3));
-            tvNormalsuggest.setText(cl3.getString(2));*/
-/*        tvSiteName.setText("測站: "+cl2.getString(2));
-        tvPublishtime.setText("最後更新時間: "+cl2.getString(1));*/
+        tvSiteName.setText("測站: "+cl2.getString(2));
+        tvPublishtime.setText("最後更新時間: "+cl2.getString(1));
     }
     public String weatherIcon(int code){
         //天氣圖示
@@ -228,5 +245,91 @@ public class NowFragment extends Fragment {
             return getActivity().getString(R.string.wi_yahoo_47);
         else
             return getActivity().getString(R.string.wi_yahoo_3200);
+    }
+    //以下是AQI View
+    private void initAQIView(){
+        trendYAxis = (TrendYAxisView) mView.findViewById(R.id.trend_y_axis);
+        svContainer = (HorizontalScrollChartParentView) mView.findViewById(R.id.sv_container);
+        trendChartView = (TrendChartView) mView.findViewById(R.id.trend_chart_view);
+        trendYAxis.setChartView(trendChartView);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) trendYAxis.getLayoutParams();
+        params.width = trendChartView.getLeftMarginSize();
+        params.height = trendChartView.getChartHeight();
+        trendYAxis.setLayoutParams(params);
+
+        svContainer.setOnScrollListener(new HorizontalScrollChartParentView.OnScrollListener() {
+            @Override
+            public void onScrollChanged(int x, int y, int oldX, int oldY) {
+                trendChartView.onTrendCharScrollChanged(x, y, oldX, oldY);
+            }
+        });
+
+        trendChartView.post(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void run() {
+                trendChartView.fillData(formatDataList(), mockDayList(), getForecastDaysCount());
+            }
+        });
+        trendChartView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                svContainer.smoothScrollTo(trendChartView.getOffsetByPosition(1),0);
+            }
+        },1000);
+
+    }
+    private int getForecastDaysCount() {
+        return 3;
+    }
+
+    private List<String> mockDayList() {
+        List<String> list = new ArrayList<>(getForecastDaysCount());
+        list.add("昨天");
+        list.add("今天");
+        list.add("明天");
+        return list;
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    List<ITrendData> formatDataList() {
+        List<ITrendData> dataList = new ArrayList<>();
+        long todayTime = getDayBegin().getTime()-28800000;
+        long yesterday = todayTime - 24 * 60 * 60 * 1000;
+        Random random = new Random();
+        for (int i = 0; i < getForecastDaysCount() * 24; i++) {
+            int baseValue = 300;
+            if (i / 24 == 0) {
+                baseValue = 40;
+            }else if(i / 24 == 1){
+                baseValue = 50;
+            }else if(i / 24 == 2){
+                baseValue = 55;
+            }else if(i / 24 == 3){
+                baseValue = 52;
+            }else if(i / 24 == 4){
+                baseValue = 65;
+            }else if(i / 24 == 5){
+                baseValue = 100;
+            }else if(i / 24 == 6){
+                baseValue = 80;
+            }
+            int aqiValue = baseValue+i*2;
+            Log.d("=======", "baseValue "+baseValue+" aqiValue "+aqiValue);
+            int aqiLevel = Utils.getAqiIndex(aqiValue);
+            String aqiDesc = getString(Utils.getIndexDescription(aqiLevel));
+            @ColorInt int color = Utils.getColor(getContext(), Utils.getIndexColor(aqiLevel));
+            dataList.add(new TrendHourBean(yesterday + (60 * 60 * 1000 * i), aqiValue, aqiLevel, color, aqiValue, aqiDesc));
+        }
+        return dataList;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Timestamp getDayBegin() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.MILLISECOND, 001);
+        return new Timestamp(cal.getTimeInMillis());
     }
 }
