@@ -9,7 +9,9 @@
     <color name="tvPM">#000c39</color>
 
     <color name="alermAir1">#23ff24</color>
+    <color name="alermAir1_1">#45e27d</color>
     <color name="alermAir2">#ffff2b</color>
+    <color name="alermAir2_2">#D7AF0C</color>
     <color name="alermAir3">#ff9124</color>
     <color name="alermAir4">#ff2424</color>
     <color name="alermAir5">#8e3f96</color>
