@@ -57,8 +57,8 @@ public class NowFragment extends Fragment {
     private HorizontalScrollChartParentView svContainer;
     private TrendChartView trendChartView;
     private int aqi[]={26,28,29,35,29,34,28,31,32,36,39,45,40,39,28,38,38,37,31,28,28,29,25,26,
-            26,28,29,35,29,34,28,31,32,36,39,45,40,39,28,38,38,37,31,28,28,29,25,26,
-            26,28,29,35,29,34,28,31,32,36,39,45,40,39,28,38,38,37,31,28,28,29,25,26};
+            26,28,29,35,29,34,28,31,32,36,39,45,48,52,54,56,54,60,61,54,54,51,51,50,
+            49,45,35,35,29,34,28,31,32,42,49,55,58,62,66,63,52,51,51,51,51,51,51,51};
 
     public NowFragment() {
         // Required empty public constructor
@@ -118,27 +118,27 @@ public class NowFragment extends Fragment {
         Cursor cl3 = mAccess.getData("AQI", null, null);
         cl3.moveToFirst();
 
-        if(cl2.getShort(2)>=0&&cl2.getShort(2)<=50){
+        if(cl2.getShort(3)>=0&&cl2.getShort(3)<=50){
             mIndex=1;
             AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air1);
         }
-        else if(cl2.getShort(2)>=51&&cl2.getShort(2)<=100){
+        else if(cl2.getShort(3)>=51&&cl2.getShort(3)<=100){
             mIndex=2;
             AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air2);
         }
-        else if(cl2.getShort(2)>=101&&cl2.getShort(2)<=150){
+        else if(cl2.getShort(3)>=101&&cl2.getShort(3)<=150){
             mIndex=3;
             AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air3);
         }
-        else if(cl2.getShort(2)>=151&&cl2.getShort(2)<=200){
+        else if(cl2.getShort(3)>=151&&cl2.getShort(3)<=200){
             mIndex=4;
             AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air4);
         }
-        else if(cl2.getShort(2)>=201&&cl2.getShort(2)<=300){
+        else if(cl2.getShort(3)>=201&&cl2.getShort(3)<=300){
             mIndex=5;
             AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air5);
         }
-        else if(cl2.getShort(2)>=301&&cl2.getShort(2)<=500){
+        else if(cl2.getShort(3)>=301&&cl2.getShort(3)<=500){
             mIndex=6;
             AQIrelativeLayout.setBackgroundResource(R.drawable.round_box_air6);
         }
@@ -320,8 +320,7 @@ public class NowFragment extends Fragment {
             Log.d("=======", "baseValue "+baseValue+" aqiValue "+aqiValue);
             //int aqiLevel = Utils.getAqiIndex(aqiValue);
             int aqiLevel = Utils.getAqiIndex(aqi[i]);
-            //String aqiDesc = getString(Utils.getIndexDescription(aqiLevel));
-            String aqiDesc = getString(Utils.getIndexDescription(aqi[i]));
+            String aqiDesc = getString(Utils.getIndexDescription(aqiLevel));
             @ColorInt int color = Utils.getColor(getContext(), Utils.getIndexColor(aqiLevel));
             dataList.add(new TrendHourBean(yesterday + (60 * 60 * 1000 * i), aqi[i], aqiLevel, color, aqi[i], aqiDesc));
         }

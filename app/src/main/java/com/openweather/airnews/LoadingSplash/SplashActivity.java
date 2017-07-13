@@ -139,7 +139,7 @@ public class SplashActivity extends AppCompatActivity {
                     Log.e("Data",noteList.select("p").text().split(" ")[0]);
                     String url="https://tw.video.yahoo.com/weather/";
                     String img="https://s.yimg.com/dh/ap/default/130909/y_200_a.png";
-                    list.add(0,new DataModel(noteList.select("h2.title").select("a").text().split(" ")[0],"time",noteList.select("p").text().split(" ")[0].substring(0,26)+"...",img,url));
+                    list.add(0,new DataModel(noteList.select("h2.title").select("a").text().split(" ")[0],"Yahoo奇摩新聞氣象(報氣象)",noteList.select("p").text().split(" ")[0].substring(0,26)+"...",img,url));
 
                 } catch (IOException e) {
                     e.printStackTrace();

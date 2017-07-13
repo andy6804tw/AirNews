@@ -11,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,11 +18,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.openweather.airnews.DataModel.DataModel;
-import com.openweather.airnews.LoadingSplash.SplashActivity;
 import com.openweather.airnews.R;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -60,6 +58,7 @@ public class NewsFragmentRVA extends RecyclerView.Adapter<NewsFragmentRVA.ViewHo
         //Footer
         public TextView tvFooter;
         private AVLoadingIndicatorView avi;
+        public LinearLayout footerLinearLayout;
 
         public ViewHolder(View itemView,int viewType) {
             super(itemView);
@@ -72,12 +71,13 @@ public class NewsFragmentRVA extends RecyclerView.Adapter<NewsFragmentRVA.ViewHo
             }
             else {
                 tvFooter = (TextView) itemView.findViewById(R.id.tvFooter);
+                footerLinearLayout=(LinearLayout)itemView.findViewById(R.id.footerLinearLayout);
                 avi= (AVLoadingIndicatorView)itemView.findViewById(R.id.avi);
                 avi.setIndicator("LineSpinFadeLoaderIndicator");
-                avi.show();
+                avi.hide();
             }
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            /*itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     int position = getAdapterPosition();
 
@@ -86,7 +86,7 @@ public class NewsFragmentRVA extends RecyclerView.Adapter<NewsFragmentRVA.ViewHo
                             .setAction("Action", null).show();
 
                 }
-            });
+            });*/
 
         }
     }
@@ -102,7 +102,7 @@ public class NewsFragmentRVA extends RecyclerView.Adapter<NewsFragmentRVA.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         //viewHolder.itemTitle.setText(titles[i]);
         //viewHolder.itemDetail.setText(details[i]);
         //viewHolder.itemImage.setImageResource(images[i]);
@@ -126,16 +126,16 @@ public class NewsFragmentRVA extends RecyclerView.Adapter<NewsFragmentRVA.ViewHo
                     notifyItemRemoved(10*page++);
                 }
             }, 1500);*/
-
-                viewHolder.tvFooter.setOnClickListener(new View.OnClickListener() {
+                viewHolder.footerLinearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(mContext,"Hi~",Toast.LENGTH_LONG).show();
                     addData();
+                    viewHolder.avi.show();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             notifyItemRemoved(10*page+++1);
+                            viewHolder.avi.hide();
                         }
                     }, 2500);
                    // notifyDataSetChanged();
@@ -196,7 +196,7 @@ public class NewsFragmentRVA extends RecyclerView.Adapter<NewsFragmentRVA.ViewHo
                         Elements detail = element.select("div.views-field.views-field-body");
                         Elements time = element.select("span.views-field.views-field-created");
                         //Log.e("Title"+c++,title.text()+" "+Image.attr("abs:src")+" "+detail.text()+" "+time.text()+" "+url.attr("abs:href"));
-                        list.add(new DataModel(title.text(),time.text(),detail.text(),Image.attr("abs:src"),url.attr("abs:href")));
+                        list.add(new DataModel(title.text(),time.text(),detail.text().substring(0,25)+"...",Image.attr("abs:src"),url.attr("abs:href")));
                     }
                     for(int i =0;i<list.size();i++){
                         Log.e("Title"+i,list.get(i).getTitle());

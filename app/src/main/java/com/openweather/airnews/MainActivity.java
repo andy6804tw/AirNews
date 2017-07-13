@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPagerAdapter viewPagerAdapter;
     private long temptime = 0;//計算退出秒數
     private MarqueeView marqueeView2;
-    private final List<String> datas = Arrays.asList("2日北部、竹苗地區為普通等級","其他地區為良好等級。","指標污染物為臭氧(午後時段)", "3日、4日北部、竹苗地區為普通等級", "指標污染物為臭氧(午後時段)", "其他地區為良好等級。");
+    private final List<String> datas = Arrays.asList("13日北部、中南部地區為普通等級","其他地區為良好等級。","指標污染物為臭氧(午後時段)", "14日、15日西半部地區為普通等級", "指標污染物為臭氧(午後時段)", "其他地區為良好等級。");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

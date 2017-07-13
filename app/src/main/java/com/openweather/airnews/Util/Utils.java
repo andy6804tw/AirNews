@@ -91,19 +91,19 @@ public class Utils {
     int getIndexDescription(int aqiIndex) {
         switch (aqiIndex) {
             case LEVEL_AQI_1:
-                return R.string.pm_describe_1;
+                return R.string.pm_describes_1;
             case LEVEL_AQI_2:
-                return R.string.pm_describe_2;
+                return R.string.pm_describes_2;
             case LEVEL_AQI_3:
-                return R.string.pm_describe_3;
+                return R.string.pm_describes_3;
             case LEVEL_AQI_4:
-                return R.string.pm_describe_4;
+                return R.string.pm_describes_4;
             case LEVEL_AQI_5:
-                return R.string.pm_describe_5;
+                return R.string.pm_describes_5;
             case LEVEL_AQI_6:
-                return R.string.pm_describe_6;
+                return R.string.pm_describes_6;
             default:
-                return R.string.pm_describe_1;
+                return R.string.pm_describes_1;
         }
     }
 }
