@@ -56,6 +56,9 @@ public class NowFragment extends Fragment {
     private TrendYAxisView trendYAxis;
     private HorizontalScrollChartParentView svContainer;
     private TrendChartView trendChartView;
+    private int aqi[]={26,28,29,35,29,34,28,31,32,36,39,45,40,39,28,38,38,37,31,28,28,29,25,26,
+            26,28,29,35,29,34,28,31,32,36,39,45,40,39,28,38,38,37,31,28,28,29,25,26,
+            26,28,29,35,29,34,28,31,32,36,39,45,40,39,28,38,38,37,31,28,28,29,25,26};
 
     public NowFragment() {
         // Required empty public constructor
@@ -311,14 +314,16 @@ public class NowFragment extends Fragment {
             }else if(i / 24 == 5){
                 baseValue = 100;
             }else if(i / 24 == 6){
-                baseValue = 80;
+                baseValue = 20;
             }
             int aqiValue = baseValue+i*2;
             Log.d("=======", "baseValue "+baseValue+" aqiValue "+aqiValue);
-            int aqiLevel = Utils.getAqiIndex(aqiValue);
-            String aqiDesc = getString(Utils.getIndexDescription(aqiLevel));
+            //int aqiLevel = Utils.getAqiIndex(aqiValue);
+            int aqiLevel = Utils.getAqiIndex(aqi[i]);
+            //String aqiDesc = getString(Utils.getIndexDescription(aqiLevel));
+            String aqiDesc = getString(Utils.getIndexDescription(aqi[i]));
             @ColorInt int color = Utils.getColor(getContext(), Utils.getIndexColor(aqiLevel));
-            dataList.add(new TrendHourBean(yesterday + (60 * 60 * 1000 * i), aqiValue, aqiLevel, color, aqiValue, aqiDesc));
+            dataList.add(new TrendHourBean(yesterday + (60 * 60 * 1000 * i), aqi[i], aqiLevel, color, aqi[i], aqiDesc));
         }
         return dataList;
     }
