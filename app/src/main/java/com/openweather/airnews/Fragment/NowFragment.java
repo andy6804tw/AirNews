@@ -4,7 +4,6 @@ package com.openweather.airnews.Fragment;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
@@ -32,6 +31,7 @@ import com.openweather.airnews.View.TemperatureView;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -293,10 +293,9 @@ public class NowFragment extends Fragment {
         list.add("明天");
         return list;
     }
-    @RequiresApi(api = Build.VERSION_CODES.N)
     List<ITrendData> formatDataList() {
         List<ITrendData> dataList = new ArrayList<>();
-        long todayTime = getDayBegin().getTime()-28800000;
+        long todayTime = getDayBegin().getTime();
         long yesterday = todayTime - 24 * 60 * 60 * 1000;
         Random random = new Random();
         for (int i = 0; i < getForecastDaysCount() * 24; i++) {
@@ -326,8 +325,6 @@ public class NowFragment extends Fragment {
         }
         return dataList;
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public Timestamp getDayBegin() {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 0);

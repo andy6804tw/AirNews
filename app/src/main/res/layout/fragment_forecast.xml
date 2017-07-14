@@ -301,7 +301,6 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="8dp"
                 android:text="預報日期: 2017-07-10"
                 android:textColor="#fff"
                 android:textSize="10dp" />
