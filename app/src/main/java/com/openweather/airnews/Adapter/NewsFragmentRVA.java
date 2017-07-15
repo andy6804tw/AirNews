@@ -107,7 +107,11 @@ public class NewsFragmentRVA extends RecyclerView.Adapter<NewsFragmentRVA.ViewHo
         //viewHolder.itemDetail.setText(details[i]);
         //viewHolder.itemImage.setImageResource(images[i]);
         if(position!=list.size()){
-            new DownloadImageTask (viewHolder.itemImage).execute(list.get(position).getImage());
+            if(!list.get(position).getImage().contains("logo.png")){
+                new DownloadImageTask (viewHolder.itemImage).execute(list.get(position).getImage());
+            }else{
+                viewHolder.itemImage.setImageResource(R.mipmap.default_logo);
+            }
             viewHolder.itemTitle.setText(list.get(position).getTitle());
             viewHolder.itemTime.setText(list.get(position).getTime());
             viewHolder.itemDetail.setText(list.get(position).getDetail());

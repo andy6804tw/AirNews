@@ -287,7 +287,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="4dp"
                 android:text="1.10日北部地區為普通等級，指標污染物為細懸浮微粒及臭氧(午後時段)，其他地區為良好等級。
                 2.11、12日西半部地區為普通等級，指標污染物為細懸浮微粒及臭氧(午後時段)，其他地區為良好等級。\r\n"
                 android:textColor="#fff"
