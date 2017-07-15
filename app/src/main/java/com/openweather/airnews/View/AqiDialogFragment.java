@@ -4,15 +4,19 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.openweather.airnews.DataBase.DBAccess;
 import com.openweather.airnews.R;
 
 import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
+
 
 /**
  * Simple fragment with blur effect behind.
@@ -44,6 +48,8 @@ public class AqiDialogFragment extends BlurDialogFragment {
     private float mDownScaleFactor;
     private boolean mDimming;
     private boolean mDebug;
+    private DBAccess mAccess;
+    private int mIndex=0;
 
     /**
      * Retrieve a new instance of the sample fragment.
@@ -96,6 +102,7 @@ public class AqiDialogFragment extends BlurDialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @NonNull
@@ -104,6 +111,8 @@ public class AqiDialogFragment extends BlurDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_aqi, null);
         Button btn=(Button)view.findViewById(R.id.button);
+        TextView tvDes=(TextView)view.findViewById(R.id.tvDes);
+        TextView tvNormalsuggest=(TextView)view.findViewById(R.id.tvNormalsuggest);
         /*final TextView label = ((TextView) view.findViewById(R.id.textView));
         label.setMovementMethod(LinkMovementMethod.getInstance());
         Linkify.addLinks(label, Linkify.WEB_URLS);*/
@@ -114,6 +123,34 @@ public class AqiDialogFragment extends BlurDialogFragment {
                 getDialog().dismiss();
             }
         });
+
+        mAccess = new DBAccess(getActivity(), "weather", null,1);
+        Cursor cl2 = mAccess.getData("AIR", null, null);
+        cl2.moveToFirst();
+        Cursor cl3 = mAccess.getData("AQI", null, null);
+        cl3.moveToFirst();
+        if(cl2.getShort(3)>=0&&cl2.getShort(3)<=50){
+            mIndex=1;
+        }
+        else if(cl2.getShort(3)>=51&&cl2.getShort(3)<=100){
+            mIndex=2;
+        }
+        else if(cl2.getShort(3)>=101&&cl2.getShort(3)<=150){
+            mIndex=3;
+        }
+        else if(cl2.getShort(3)>=151&&cl2.getShort(3)<=200){
+            mIndex=4;
+        }
+        else if(cl2.getShort(3)>=201&&cl2.getShort(3)<=300){
+            mIndex=5;
+        }
+        else if(cl2.getShort(3)>=301&&cl2.getShort(3)<=500){
+            mIndex=6;
+        }
+        //Log.e("DataAQI",cl3.getString(2));
+        cl3.moveToPosition(mIndex-1);
+        tvDes.setText(cl3.getString(3));
+        tvNormalsuggest.setText(cl3.getString(2));
         return builder.create();
     }
 
