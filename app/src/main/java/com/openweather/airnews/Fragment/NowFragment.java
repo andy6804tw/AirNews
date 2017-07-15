@@ -27,6 +27,7 @@ import com.openweather.airnews.DataBase.DBAccess;
 import com.openweather.airnews.DataModel.TrendHourBean;
 import com.openweather.airnews.R;
 import com.openweather.airnews.Util.Utils;
+import com.openweather.airnews.View.AqiDialogFragment;
 import com.openweather.airnews.View.TemperatureView;
 
 import java.sql.Timestamp;
@@ -147,6 +148,22 @@ public class NowFragment extends Fragment {
         tvStr.setText(cl3.getString(1));
         tvSiteName.setText("測站: "+cl2.getString(2));
         tvPublishtime.setText("最後更新時間: "+cl2.getString(1));
+
+        //跳出AQI建議dialog
+        arc_progress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AqiDialogFragment fragment
+                        = AqiDialogFragment.newInstance(
+                        8,
+                        4,
+                        false,
+                        false
+                );
+                fragment.show(getActivity().getFragmentManager(), "blur_sample");
+            }
+        });
+
     }
     public String weatherIcon(int code){
         //天氣圖示

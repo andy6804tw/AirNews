@@ -10,6 +10,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        renderscriptTargetApi 22
+        renderscriptSupportModeEnabled true
     }
     buildTypes {
         release {
@@ -43,5 +45,6 @@ dependencies {
     compile 'com.github.pwittchen:weathericonview:1.1.0'
     compile 'com.jaredrummler:material-spinner:1.1.0'
     compile 'com.github.andy6804tw:TrendChartView:0.0.1'
+    compile 'fr.tvbarthel.blurdialogfragment:lib:2.2.0'
     testCompile 'junit:junit:4.12'
 }
