@@ -57,7 +57,7 @@ public class NowFragment extends Fragment {
     private TrendYAxisView trendYAxis;
     private HorizontalScrollChartParentView svContainer;
     private TrendChartView trendChartView;
-    private int aqi[]={26,28,29,35,29,34,28,31,32,36,39,45,40,39,28,38,38,37,31,28,28,29,25,26,
+    private int aqi[]={50,54,56,57,54,56,53,45,44,41,49,50,54,54,53,53,47,44,43,54,55,58,54,57,
             26,28,29,35,29,34,28,31,32,36,39,45,48,52,54,56,54,60,61,54,54,51,51,50,
             49,45,35,35,29,34,28,31,32,42,49,55,58,62,66,63,52,51,51,51,51,51,51,51};
 

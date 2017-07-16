@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     tools:context="com.openweather.airnews.Fragment.NowFragment"
-    android:background="@mipmap/night02">
+    android:background="@mipmap/bg_now">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,7 +63,7 @@
                 android:orientation="vertical"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="3dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/round_box">
                 <com.github.lzyzsd.circleprogress.ArcProgress
                     android:id="@+id/arc_progress"

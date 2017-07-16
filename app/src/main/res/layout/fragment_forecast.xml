@@ -253,12 +253,13 @@
         <!--預報內容-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/round_box"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp">
 
 
             <TextView
@@ -266,7 +267,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="4dp"
                 android:text="空品區: 雲嘉南"
                 android:textColor="#fff"
                 android:textSize="14dp" />
@@ -287,7 +288,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="2dp"
                 android:text="1.10日北部地區為普通等級，指標污染物為細懸浮微粒及臭氧(午後時段)，其他地區為良好等級。
                 2.11、12日西半部地區為普通等級，指標污染物為細懸浮微粒及臭氧(午後時段)，其他地區為良好等級。\r\n"
                 android:textColor="#fff"
@@ -299,7 +300,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="3dp"
                 android:layout_marginRight="10dp"
                 android:text="預報日期: 2017-07-10"
                 android:textColor="#fff"
